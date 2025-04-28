@@ -81,7 +81,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GameScreen(number: 1),
+        builder: (context) => GameScreen(port: int.tryParse(widget.port) ?? 6000, host: ip,),
       ),
     );
   }

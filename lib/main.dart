@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'screens/host.dart';
+import 'screens/game.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,8 +35,8 @@ class _TcpPageState extends State<TcpPage> {
   Socket? socket;
   final List<String> messages = [];
 
-  final TextEditingController ipController = TextEditingController(text: '127.0.0.1');
-  final TextEditingController portController = TextEditingController(text: '5000');
+  final TextEditingController ipController = TextEditingController(text: '0.0.0.0');
+  final TextEditingController portController = TextEditingController(text: '6000');
   final TextEditingController messageController = TextEditingController();
 
   void goToHost() {
@@ -44,10 +45,9 @@ class _TcpPageState extends State<TcpPage> {
       MaterialPageRoute(builder: (context) => HostMenuScreen(port: portController.text)),
     );
   }
-
   void connectToServer() async {
     String ip = ipController.text;
-    int port = int.tryParse(portController.text) ?? 5000;
+    int port = int.tryParse(portController.text) ?? 6000;
     socket = await Socket.connect(ip, port);
     socket?.listen((data) {
       String message = utf8.decode(data);
@@ -58,17 +58,11 @@ class _TcpPageState extends State<TcpPage> {
     setState(() {
       messages.add('Connected to server.');
     });
-  }
 
-  void sendMessage() {
-    if (socket != null) {
-      String msg = messageController.text;
-      socket!.add(utf8.encode(msg));
-      setState(() {
-        messages.add('Me: $msg');
-        messageController.clear();
-      });
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => GameScreen(port: int.tryParse(portController.text) ?? 6000, host: ipController.text,)),
+    );
   }
 
   @override
