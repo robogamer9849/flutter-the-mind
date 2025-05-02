@@ -16,6 +16,7 @@ class HostMenuScreen extends StatefulWidget {
 
 class _HostMenuScreenState extends State<HostMenuScreen> {
   String ip = 'Fetching IP...';
+  Map<String, int> clients = {};
 
   @override
   void initState() {
@@ -48,25 +49,32 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
     }
   }
   ServerSocket? server;
-  List<String> clients = [];
 
 
   void startServer() async {
     int port = int.tryParse(widget.port) ?? 6000;
     server = await ServerSocket.bind(InternetAddress.anyIPv4, port);
     server?.listen((Socket client) {
-      setState(() {
-        clients.add(client.remoteAddress.address);
-      });
       client.listen((data) {
         String message = utf8.decode(data);
         debugPrint('Received from client: $message');
 
         if (message.startsWith("give me")) {
           final random = Random();
-          int randomNumber = random.nextInt(101);
-          client.write(randomNumber);
+          if (!clients.containsKey(client.remoteAddress.address)){
+            int randomNumber = random.nextInt(101);
+            debugPrint('Sending random number: $randomNumber');
+            clients[client.remoteAddress.address] = randomNumber;
+            debugPrint(clients.toString());
+            client.write(randomNumber);
+          }
+          else if(clients.containsKey(client.remoteAddress.address)){
+            client.write(clients[client.remoteAddress.address]);
+          }
         }
+
+        
+
       });
     });
   }
@@ -107,8 +115,9 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               child: ListView.builder(
                 itemCount: clients.length,
                 itemBuilder: (context, index) {
+                  String clientIp = clients.keys.elementAt(index);
                   return ListTile(
-                    title: Text('Client: ${clients[index]}'),
+                    title: Text('Client: $clientIp'),
                   );
                 },
               ),
