@@ -419,7 +419,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                     
                                     return Card(
                                       margin: const EdgeInsets.symmetric(vertical: 4),
-                                      color: Theme.of(context).colorScheme.surfaceVariant,
+                                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                       ),

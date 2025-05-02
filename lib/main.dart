@@ -279,7 +279,7 @@ class _TcpPageState extends State<TcpPage> {
                                         decoration: BoxDecoration(
                                           color: isServer
                                               ? Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7)
-                                              : Theme.of(context).colorScheme.surfaceVariant,
+                                              : Theme.of(context).colorScheme.surfaceContainerHighest,
                                           borderRadius: BorderRadius.circular(12),
                                         ),
                                         child: Text(
