@@ -17,6 +17,7 @@ class HostMenuScreen extends StatefulWidget {
 class _HostMenuScreenState extends State<HostMenuScreen> {
   String ip = 'Fetching IP...';
   Map<String, int> clients = {};
+  Map<String, int> scores = {};
 
   @override
   void initState() {
@@ -71,14 +72,31 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
           else if(clients.containsKey(client.remoteAddress.address)){
             client.write(clients[client.remoteAddress.address]);
           }
+          if (!scores.containsKey(client.remoteAddress.address)){
+            scores[client.remoteAddress.address] = 0;
+          }
         }
 
-        
+        else if (message.startsWith('show')) {
+          if (clients[client.remoteAddress.address] == clients.values.reduce(min)) {
+            debugPrint('min number = ${clients.values.reduce(min)}');
+            client.write('yes :)');
+            scores[client.remoteAddress.address] = scores[client.remoteAddress.address]! + 1;
+          }
+          else {
+            client.write('no  :(');
+            scores[client.remoteAddress.address] = scores[client.remoteAddress.address]! - 1;
+          }
+          clients.remove(client.remoteAddress.address);
+        }
+
+        else if (message.startsWith('score')) {
+          client.write('${scores[client.remoteAddress.address]}');
+        }
 
       });
     });
   }
-
   @override
   void dispose() {
     server?.close();
@@ -106,10 +124,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               ip,
               style: const TextStyle(fontSize: 24),
             ),
-            const Text(
-              'Waiting for players...',
-              style: TextStyle(fontSize: 20),
-            ),
+            
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(

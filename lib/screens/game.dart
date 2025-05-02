@@ -14,6 +14,8 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   int number = -1;
+  int score = 0;
+  String state = 'show';
   Socket? clientSocket;
   ServerSocket? server;
 
@@ -37,19 +39,63 @@ class _GameScreenState extends State<GameScreen> {
           number = int.tryParse(reply) ?? -1;
         });
       });
-    } catch (e) {
+    } 
+    catch (e) {
       debugPrint('Error connecting to server: $e');
     }
-    }
+  }
 
-  void show() {
+  void show() async{
     if (clientSocket != null) {
-      clientSocket!.write('show');
-    } else {
-      debugPrint('No client connected to send "show" command');
+      try {
+        clientSocket = await Socket.connect(widget.host, widget.port);
+        debugPrint('Connected to server at ${widget.host}:${widget.port}');
+        
+        clientSocket!.write('show');
+        
+        clientSocket!.listen((data) async {
+          String reply = String.fromCharCodes(data);
+          debugPrint('Received reply: $reply');
+          setState(() {
+            state = reply;
+          });
+          await Future.delayed(const Duration(seconds: 1));
+          setState(() {
+            state = 'show';
+          });
+          _setupServer();
+          _updateScore();
+        });
+    } 
+    catch (e) {
+      debugPrint('Error connecting to server: $e');
     }
   }
-  
+  else {
+    debugPrint('No client connected to send "show" command');
+  }
+  }
+
+
+  void _updateScore() async {
+    try {
+      clientSocket = await Socket.connect(widget.host, widget.port);
+      debugPrint('Connected to server at ${widget.host}:${widget.port}');
+      
+      clientSocket!.write('score');
+      
+      clientSocket!.listen((data) {
+        String reply = String.fromCharCodes(data);
+        debugPrint('Received reply: $reply');
+        setState(() {
+          score = int.tryParse(reply) ?? 0;
+        });
+      });
+    } 
+    catch (e) {
+      debugPrint('Error connecting to server: $e');
+    }
+  }
 
 
   @override
@@ -70,8 +116,11 @@ class _GameScreenState extends State<GameScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Game in progress...',
+              'score:',
               style: TextStyle(fontSize: 24),
+            ),
+            Text(
+              score.toString(),
             ),
             Text(
               '$number',
@@ -80,7 +129,7 @@ class _GameScreenState extends State<GameScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: show,
-              child: const Text('show')
+              child: Text(state)
             )
           ],
         ),
