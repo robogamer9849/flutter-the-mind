@@ -130,7 +130,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               'max number: $maxNumber',
             ),
             Slider(
-              value: 100,
+              value: maxNumber.toDouble(),
               min: 0,
               max: 1000,
               
