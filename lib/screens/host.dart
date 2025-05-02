@@ -16,6 +16,7 @@ class HostMenuScreen extends StatefulWidget {
 
 class _HostMenuScreenState extends State<HostMenuScreen> {
   String ip = 'Fetching IP...';
+  int maxNumber = 100;
   Map<String, int> clients = {};
   Map<String, int> scores = {};
 
@@ -63,7 +64,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
         if (message.startsWith("give me")) {
           final random = Random();
           if (!clients.containsKey(client.remoteAddress.address)){
-            int randomNumber = random.nextInt(101);
+            int randomNumber = random.nextInt(maxNumber + 1);
             debugPrint('Sending random number: $randomNumber');
             clients[client.remoteAddress.address] = randomNumber;
             debugPrint(clients.toString());
@@ -124,7 +125,31 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               ip,
               style: const TextStyle(fontSize: 24),
             ),
-            
+            const SizedBox(height: 20),
+            Text(
+              'max number: $maxNumber',
+            ),
+            Slider(
+              value: 100,
+              min: 0,
+              max: 1000,
+              
+              label: 'max number',
+              onChanged: (double value) {
+                debugPrint(value.toString());
+                if (maxNumber >= 0) {
+                  setState(() {
+                    maxNumber = value.toInt();
+                  });
+                  }
+                else {
+                  setState(() {
+                    maxNumber = 100;
+                  });
+                }
+                debugPrint(maxNumber.toString());
+              },
+            ),
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(

@@ -109,7 +109,7 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Game'),
+        title: Text(widget.host),
       ),
       body: Center(
         child: Column(
