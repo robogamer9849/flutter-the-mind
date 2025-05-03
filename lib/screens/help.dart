@@ -5,8 +5,7 @@ class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _HelpScreenState createState() => _HelpScreenState();
+  State<HelpScreen> createState() => _HelpScreenState();
 }
 
 class _HelpScreenState extends State<HelpScreen> {
@@ -14,113 +13,191 @@ class _HelpScreenState extends State<HelpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Help'),
+        title: const Text(
+          'How to Play',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
+        elevation: 0,
+        centerTitle: true,
+      ),      
+      body: Container(
+        height: 3000,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+                    darkPurple,
+                    purple,
+                    violet,
+                    magenta,
+                    pink,
+                  ]
+          ),
+        ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+                const SizedBox(height: 24),
+                _buildSetupSection(),
+                const SizedBox(height: 32),
+                _buildGameplaySection(),
+              ],
+            ),
+          ),
+        ),
       ),
-      body: const SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        // color: lightBlue.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: const Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '🎮 THE MIND - TELEPATHY GAME! 🎮',
+              '🎮 THE MIND 🎮',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: lightBlue,
               ),
             ),
-            SizedBox(height: 8),
             Text(
-              '🌟 LET\'S GET THIS PARTY STARTED! 🌟',
+              'Telepathy Game',
               style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
                 color: brightPink,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 16),
-            Text(
-              '👥 Round up your crew - the more players, the more mayhem!',
+          ],
+        ),
+      ),    );
+  }
+
+  Widget _buildSetupSection() {
+    return Card(
+      // color: Colors.transparent,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              '🚀 Game Setup',
               style: TextStyle(
-                fontSize: 16,
-                color: violet,
-              ),
-            ),
-            SizedBox(height: 24),
-            Text(
-              '🚀 LAUNCH THE GAME:',
-              style: TextStyle(
-                fontSize: 18,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: blue,
               ),
             ),
-            SizedBox(height: 8),
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '1. 📱 Share the app with your squad (Android gang only for now!)',
-                    style: TextStyle(fontSize: 16, color: indigoBlue),
-                  ),
-                  Text(
-                    '2. 📶 Everyone hop on the same WiFi',
-                    style: TextStyle(fontSize: 16, color: deepPurple),
-                  ),
-                  Text(
-                    '3. 🎯 One brave soul hits \'HOST\'',
-                    style: TextStyle(fontSize: 16, color: darkPurple),
-                  ),
-                  Text(
-                    '4. 🎲 Pick your challenge level',
-                    style: TextStyle(fontSize: 16, color: purple),
-                  ),
-                ],
+            const SizedBox(height: 16),
+            _buildSetupStep('1', 'Share the app with friends', pink),
+            _buildSetupStep('2', 'Connect to the same WiFi', brightPink),
+            _buildSetupStep('3', 'One player hosts the game', blue),
+            _buildSetupStep('4', 'Choose a difficulty level', indigoBlue),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSetupStep(String number, String text, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                number,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            SizedBox(height: 24),
-            Text(
-              'GAMEPLAY:',
+          ),
+          const SizedBox(width: 12),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGameplaySection() {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              '🎮 How to Play',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: magenta,
               ),
             ),
-            SizedBox(height: 8),
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '• 🎭 Get your secret number',
-                    style: TextStyle(fontSize: 16, color: pink),
-                  ),
-                  Text(
-                    '• 🎯 Show if you think yours is lowest',
-                    style: TextStyle(fontSize: 16, color: brightPink),
-                  ),
-                  Text(
-                    '• ⭐ Correct = +1 point',
-                    style: TextStyle(fontSize: 16, color: lightBlue),
-                  ),
-                  Text(
-                    '• 💥 Wrong = -1 point',
-                    style: TextStyle(fontSize: 16, color: blue),
-                  ),
-                  Text(
-                    '• 🎉 Most points wins!',
-                    style: TextStyle(fontSize: 16, color: indigoBlue),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 32),
+            const SizedBox(height: 16),
+            _buildGameplayRule('Get your secret number', pink),
+            _buildGameplayRule('Play the lowest number first', brightPink),
+            _buildGameplayRule('Correct guess = +1 point', lightBlue),
+            _buildGameplayRule('Wrong guess = -1 point', blue),
+            _buildGameplayRule('Highest score wins!', indigoBlue),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildGameplayRule(String text, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Icon(Icons.play_arrow, color: color),
+          const SizedBox(width: 12),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+              color: color,
+            ),
+          ),
+        ],
       ),
     );
   }
