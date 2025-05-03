@@ -7,7 +7,10 @@ import 'package:flutter/services.dart';
 import 'themes/colors.dart';
 import 'screens/host.dart';
 import 'screens/game.dart';
+import 'screens/help.dart';
 
+
+// Main entry point of the application
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -22,13 +25,13 @@ void main() {
   runApp(const MyApp());
 }
 
+// MyApp widget that sets up the MaterialApp
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     // Define our custom colors from the provided hex codes
-
     return MaterialApp(
       title: 'The Mind',
       theme: ThemeData(
@@ -115,6 +118,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// TcpPage widget that manages the connection settings
 class TcpPage extends StatefulWidget {
   const TcpPage({super.key});
 
@@ -122,20 +126,22 @@ class TcpPage extends StatefulWidget {
   State<TcpPage> createState() => _TcpPageState();
 }
 
+// State class for TcpPage
 class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
-  ServerSocket? server;
-  Socket? socket;
-  final List<String> messages = [];
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
+  ServerSocket? server; // Server socket for hosting
+  Socket? socket; // Client socket for connecting
+  final List<String> messages = []; // List to hold connection messages
+  late AnimationController _animationController; // Animation controller for fade effect
+  late Animation<double> _fadeAnimation; // Fade animation
 
-  final TextEditingController ipController = TextEditingController(text: '0.0.0.0');
-  final TextEditingController portController = TextEditingController(text: '6000');
-  final TextEditingController messageController = TextEditingController();
+  final TextEditingController ipController = TextEditingController(text: '0.0.0.0'); // IP address input
+  final TextEditingController portController = TextEditingController(text: '6000'); // Port input
+  final TextEditingController messageController = TextEditingController(); // Message input
 
   @override
   void initState() {
     super.initState();
+    // Initialize animation controller and fade animation
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
@@ -147,6 +153,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
     _animationController.forward();
   }
 
+  // Navigate to HostMenuScreen
   void goToHost() {
     Navigator.push(
       context,
@@ -164,6 +171,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
     );
   }
   
+  // Connect to the server
   void connectToServer() async {
     String ip = ipController.text;
     int port = int.tryParse(portController.text) ?? 6000;
@@ -218,6 +226,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
+    // Clean up resources
     socket?.destroy();
     server?.close();
     _animationController.dispose();
@@ -231,16 +240,31 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     
-    
+    // Build the main UI of TcpPage
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text(
-          'THE MIND',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(width: 20),
+            const Text(
+              'THE MIND',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.help),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HelpScreen()),
+                );
+              },
+            ),
+          ],
         ),
         centerTitle: true,
         elevation: 0,
