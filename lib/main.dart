@@ -42,7 +42,6 @@ class MyApp extends StatelessWidget {
           secondary: brightPink,
           tertiary: lightBlue,
           surface: Colors.white,
-          background: Colors.grey.shade50,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -81,7 +80,6 @@ class MyApp extends StatelessWidget {
           secondary: brightPink,
           tertiary: lightBlue,
           surface: const Color(0xFF1E1E2E),
-          background: const Color(0xFF121212),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
