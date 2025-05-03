@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class GameScreen extends StatefulWidget {
   _GameScreenState createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
+class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int number = -1;
   int score = 0;
   String state = 'show';
@@ -24,6 +25,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   // Animation controller for number reveal
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
+  late AnimationController _rotationController;
+  late Animation<double> _rotationAnimation;
+
+
 
   @override
   void initState() {
@@ -38,6 +43,16 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.elasticOut)
     );
+
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _rotationAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _rotationController, curve: Curves.easeOut),
+    );
+
     
     _setupServer();
   }
@@ -64,8 +79,8 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
         debugPrint('Received reply: $reply');
         setState(() {
           number = int.tryParse(reply) ?? -1;
-          _animationController.reset();
-          _animationController.forward();
+          _animationController..reset()..forward();
+          _rotationController..reset()..forward();
         });
       });
     } 
@@ -153,6 +168,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     clientSocket?.close();
     server?.close();
     _animationController.dispose();
+    _rotationController.dispose();
     super.dispose();
   }
 
@@ -271,27 +287,30 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                         const SizedBox(height: 16),
                         ScaleTransition(
                           scale: _scaleAnimation,
-                          child: Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondaryContainer,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context).shadowColor.withOpacity(0.3),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                number >= 0 ? '$number' : '?',
-                                style: TextStyle(
-                                  fontSize: 48,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                          child: RotationTransition(
+                            turns: _rotationAnimation,
+                            child: Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.secondaryContainer,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Theme.of(context).shadowColor.withOpacity(0.3),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  number >= 0 ? '$number' : '?',
+                                  style: TextStyle(
+                                    fontSize: 48,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                                  ),
                                 ),
                               ),
                             ),
