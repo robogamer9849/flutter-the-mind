@@ -139,29 +139,33 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Game Host'),
+        title: const Text('Game Host', 
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: lightBlue,
+          ),
+        ),
         centerTitle: true,
         elevation: 0,
+        backgroundColor: darkPurple,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: Icon(
               isServerRunning ? Icons.cloud_done : Icons.cloud_off,
-              color: isServerRunning 
-                  ? Theme.of(context).colorScheme.primary 
-                  : Theme.of(context).colorScheme.error,
+              color: isServerRunning ? lightBlue : brightPink,
             ),
           ),
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Theme.of(context).colorScheme.surface,
-              Theme.of(context).colorScheme.surface.withOpacity(0.8),
+              darkPurple,
+              deepPurple,
             ],
           ),
         ),
@@ -172,10 +176,12 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
             children: [
               // Server Info Card
               Card(
-                elevation: 4,
+                elevation: 8,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
+                  side: const BorderSide(color: indigoBlue, width: 2),
                 ),
+                color: Colors.white.withOpacity(0.9),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -183,40 +189,46 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                     children: [
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.router,
-                            color: Theme.of(context).colorScheme.primary,
+                            color: indigoBlue,
                           ),
                           const SizedBox(width: 8),
                           Text(
                             'Server Information',
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: deepPurple,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
-                      const Divider(),
+                      const Divider(color: indigoBlue),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(Icons.computer, size: 20),
+                          const Icon(Icons.computer, size: 20, color: blue),
                           const SizedBox(width: 8),
                           Text(
                             'Server IP:',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: deepPurple,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primaryContainer,
+                                color: lightBlue.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: blue),
                               ),
                               child: Text(
                                 ip,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  color: deepPurple,
                                 ),
                               ),
                             ),
@@ -226,24 +238,27 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          const Icon(Icons.numbers, size: 20),
+                          const Icon(Icons.numbers, size: 20, color: blue),
                           const SizedBox(width: 8),
                           Text(
                             'Port:',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: deepPurple,
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primaryContainer,
+                              color: lightBlue.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: blue),
                             ),
                             child: Text(
                               widget.port,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                color: deepPurple,
                               ),
                             ),
                           ),
@@ -258,10 +273,12 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               
               // Game Settings Card
               Card(
-                elevation: 4,
+                elevation: 8,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
+                  side: const BorderSide(color: magenta, width: 2),
                 ),
+                color: Colors.white.withOpacity(0.9),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -269,37 +286,43 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                     children: [
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.settings,
-                            color: Theme.of(context).colorScheme.primary,
+                            color: magenta,
                           ),
                           const SizedBox(width: 8),
                           Text(
                             'Game Settings',
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: purple,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
-                      const Divider(),
+                      const Divider(color: magenta),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Maximum Number:',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: purple,
+                            ),
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondaryContainer,
+                              color: pink.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: magenta),
                             ),
                             child: Text(
                               maxNumber.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                                color: purple,
                               ),
                             ),
                           ),
@@ -308,13 +331,13 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                       const SizedBox(height: 8),
                       SliderTheme(
                         data: SliderTheme.of(context).copyWith(
-                          activeTrackColor: Theme.of(context).colorScheme.primary,
-                          inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                          thumbColor: Theme.of(context).colorScheme.primary,
-                          overlayColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                          valueIndicatorColor: Theme.of(context).colorScheme.primary,
-                          valueIndicatorTextStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary,
+                          activeTrackColor: magenta,
+                          inactiveTrackColor: pink.withOpacity(0.3),
+                          thumbColor: brightPink,
+                          overlayColor: magenta.withOpacity(0.2),
+                          valueIndicatorColor: violet,
+                          valueIndicatorTextStyle: const TextStyle(
+                            color: Colors.white,
                           ),
                         ),
                         child: Slider(
@@ -348,10 +371,12 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               // Connected Clients Card
               Expanded(
                 child: Card(
-                  elevation: 4,
+                  elevation: 8,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
+                    side: const BorderSide(color: blue, width: 2),
                   ),
+                  color: Colors.white.withOpacity(0.9),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -362,34 +387,38 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                           children: [
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.people,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: indigoBlue,
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
                                   'Connected Players',
-                                  style: Theme.of(context).textTheme.titleLarge,
+                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: deepPurple,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primaryContainer,
+                                color: lightBlue.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: blue),
                               ),
                               child: Text(
                                 '${clients.length} players',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  color: deepPurple,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const Divider(),
+                        const Divider(color: indigoBlue),
                         Expanded(
                           child: clients.isEmpty
                               ? Center(
@@ -399,13 +428,14 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                       Icon(
                                         Icons.people_outline,
                                         size: 48,
-                                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                                        color: deepPurple.withOpacity(0.5),
                                       ),
                                       const SizedBox(height: 16),
                                       Text(
                                         'No players connected yet',
                                         style: TextStyle(
-                                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                                          color: deepPurple.withOpacity(0.5),
+                                          fontSize: 16,
                                         ),
                                       ),
                                     ],
@@ -420,36 +450,46 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                     
                                     return Card(
                                       margin: const EdgeInsets.symmetric(vertical: 4),
-                                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                                      color: lightBlue.withOpacity(0.1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
+                                        side: const BorderSide(color: blue, width: 1),
                                       ),
                                       child: ListTile(
                                         leading: CircleAvatar(
-                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                          backgroundColor: indigoBlue,
                                           child: Text(
                                             '${index + 1}',
-                                            style: TextStyle(
-                                              color: Theme.of(context).colorScheme.onPrimary,
+                                            style: const TextStyle(
+                                              color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
                                         title: Text(
                                           'Player: $clientIp',
-                                          style: const TextStyle(fontWeight: FontWeight.bold),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: deepPurple,
+                                          ),
                                         ),
-                                        subtitle: Text('Number: $clientNumber'),
+                                        subtitle: Text(
+                                          'Number: $clientNumber',
+                                          style: const TextStyle(
+                                            color: purple,
+                                          ),
+                                        ),
                                         trailing: Container(
                                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                           decoration: BoxDecoration(
-                                            color: Theme.of(context).colorScheme.primaryContainer,
+                                            color: lightBlue.withOpacity(0.2),
                                             borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(color: blue),
                                           ),
                                           child: Text(
                                             'Score: $clientScore',
-                                            style: TextStyle(
-                                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                            style: const TextStyle(
+                                              color: deepPurple,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -467,7 +507,23 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: startGame,
-                child: const Text('Start Game'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: brightPink,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 5,
+                ),
+                child: const Text(
+                  'START GAME',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
+                ),
               ),
             ],
           ),

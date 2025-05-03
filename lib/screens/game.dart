@@ -181,26 +181,33 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             Icon(
               isConnected ? Icons.wifi : Icons.wifi_off,
               size: 20,
-              color: isConnected 
-                  ? Theme.of(context).colorScheme.primary 
-                  : Theme.of(context).colorScheme.error,
+              color: isConnected ? indigoBlue : brightPink,
             ),
             const SizedBox(width: 8),
-            Text(widget.host),
+            Text(
+              widget.host,
+              style: const TextStyle(
+                color: deepPurple,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
         centerTitle: true,
-        elevation: 0,
+        elevation: 2,
+        backgroundColor: Colors.white,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Theme.of(context).colorScheme.surface,
-              Theme.of(context).colorScheme.surface.withOpacity(0.8),
+              Colors.white,
+              lightBlue,
+              blue,
             ],
+            stops: [0.0, 0.6, 1.0],
           ),
         ),
         child: Center(
@@ -211,45 +218,56 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
               children: [
                 // Score Card
                 Card(
-                  elevation: 4,
+                  elevation: 8,
+                  shadowColor: deepPurple.withOpacity(0.4),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(20),
+                    side: const BorderSide(color: indigoBlue, width: 1.5),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.stars,
-                              color: Theme.of(context).colorScheme.primary,
+                              color: magenta,
+                              size: 28,
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: 10),
                             Text(
                               'Your Score',
-                              style: Theme.of(context).textTheme.titleLarge,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: darkPurple,
+                                letterSpacing: 0.5,
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 16),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                           decoration: BoxDecoration(
-                            color: score >= 0 
-                                ? Theme.of(context).colorScheme.primaryContainer 
-                                : Theme.of(context).colorScheme.errorContainer,
-                            borderRadius: BorderRadius.circular(12),
+                            color: score >= 0 ? violet.withOpacity(0.8) : brightPink.withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: darkPurple.withOpacity(0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
                           child: Text(
                             score.toString(),
-                            style: TextStyle(
-                              fontSize: 32,
+                            style: const TextStyle(
+                              fontSize: 36,
                               fontWeight: FontWeight.bold,
-                              color: score >= 0 
-                                  ? Theme.of(context).colorScheme.onPrimaryContainer 
-                                  : Theme.of(context).colorScheme.onErrorContainer,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -262,67 +280,97 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 
                 // Number Display
                 Card(
-                  elevation: 4,
+                  elevation: 8,
+                  shadowColor: deepPurple.withOpacity(0.4),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(20),
+                    side: const BorderSide(color: indigoBlue, width: 1.5),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.numbers,
-                              color: Theme.of(context).colorScheme.primary,
+                              color: indigoBlue,
+                              size: 28,
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: 10),
                             Text(
                               'Your Number',
-                              style: Theme.of(context).textTheme.titleLarge,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: darkPurple,
+                                letterSpacing: 0.5,
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 24),
                         ScaleTransition(
                           scale: _scaleAnimation,
                           child: RotationTransition(
                             turns: _rotationAnimation,
                             child: Container(
-                              width: 120,
-                              height: 120,
+                              width: 140,
+                              height: 140,
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.secondaryContainer,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [blue, deepPurple],
+                                ),
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Theme.of(context).shadowColor.withOpacity(0.3),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 4),
+                                    color: darkPurple.withOpacity(0.5),
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 6),
                                   ),
                                 ],
+                                border: Border.all(color: Colors.white.withOpacity(0.8), width: 3),
                               ),
                               child: Center(
                                 child: Text(
                                   number >= 0 ? '$number' : '?',
-                                  style: TextStyle(
-                                    fontSize: 48,
+                                  style: const TextStyle(
+                                    fontSize: 56,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                                    color: Colors.white,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black26,
+                                        blurRadius: 4,
+                                        offset: Offset(2, 2),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        Text(
-                          connectionStatus,
-                          style: TextStyle(
-                            color: isConnected 
-                                ? Theme.of(context).colorScheme.primary 
-                                : Theme.of(context).colorScheme.error,
+                        const SizedBox(height: 20),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: isConnected ? lightBlue.withOpacity(0.2) : brightPink.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: isConnected ? indigoBlue : brightPink,
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            connectionStatus,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: isConnected ? indigoBlue : brightPink,
+                            ),
                           ),
                         ),
                       ],
@@ -330,31 +378,34 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 
-                const SizedBox(height: 30),
+                const SizedBox(height: 40),
                 
                 // Action Button
                 SizedBox(
-                  width: 200,
-                  height: 60,
+                  width: 220,
+                  height: 65,
                   child: ElevatedButton(
                     onPressed: show,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: state == 'yes :)' 
-                          ? Colors.green 
+                          ? Colors.green.shade600
                           : (state == 'no  :(' 
-                              ? Colors.red 
-                              : Theme.of(context).colorScheme.primary),
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                              ? brightPink
+                              : deepPurple),
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      elevation: 4,
+                      elevation: 8,
+                      shadowColor: darkPurple.withOpacity(0.5),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     child: Text(
                       state,
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
                       ),
                     ),
                   ),
