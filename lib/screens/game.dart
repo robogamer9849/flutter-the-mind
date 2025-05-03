@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'dart:math';
 
+import '/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class GameScreen extends StatefulWidget {
