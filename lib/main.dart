@@ -451,113 +451,112 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                               color: Colors.grey.shade300,
                             ),
                             Expanded(
-                              child: messages.isEmpty
-                                  ? Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                              child: messages.isEmpty ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.info_outline,
+                                      size: 28,
+                                      color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      'No connection activity yet',
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Host or join a game to get started',
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: messages.length,
+                                padding: const EdgeInsets.only(top: 8),
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final message = messages[index];
+                                  final isServer = message.startsWith('server:');
+                                  final isError = message.contains('failed');
+                                  
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      decoration: BoxDecoration(
+                                        color: isError
+                                            ? brightPink.withOpacity(0.15)
+                                            : isServer
+                                                ? deepPurple.withOpacity(0.15)
+                                                : lightBlue.withOpacity(0.5),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: isError
+                                              ? brightPink.withOpacity(0.3)
+                                              : isServer
+                                                  ? ( deepPurple).withOpacity(0.3)
+                                                  : Colors.transparent,
+                                          width: 1,
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.05),
+                                            blurRadius: 5,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
                                         children: [
                                           Icon(
-                                            Icons.info_outline,
-                                            size: 48,
-                                            color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+                                            isError
+                                                ? Icons.error_outline
+                                                : isServer
+                                                    ? Icons.computer
+                                                    : Icons.info_outline,
+                                            size: 18,
+                                            color: isError
+                                                ? brightPink
+                                                : isServer
+                                                    ?  deepPurple
+                                                    : Theme.of(context).colorScheme.primary,
                                           ),
-                                          const SizedBox(height: 16),
-                                          Text(
-                                            'No connection activity yet',
-                                            style: TextStyle(
-                                              color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
-                                              fontSize: 16,
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Text(
+                                              message,
+                                              style: TextStyle(
+                                                fontWeight: isServer || isError ? FontWeight.bold : FontWeight.normal,
+                                                color: isError
+                                                    ? brightPink
+                                                    : isServer
+                                                        ?  deepPurple
+                                                        : Theme.of(context).colorScheme.primary,
+                                              ),
                                             ),
                                           ),
-                                          const SizedBox(height: 8),
                                           Text(
-                                            'Host or join a game to get started',
+                                            '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
                                             style: TextStyle(
-                                              color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
-                                              fontSize: 14,
+                                              fontSize: 12,
+                                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
                                             ),
                                           ),
                                         ],
                                       ),
-                                    )
-                                  : ListView.builder(
-                                      itemCount: messages.length,
-                                      padding: const EdgeInsets.only(top: 8),
-                                      physics: const BouncingScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        final message = messages[index];
-                                        final isServer = message.startsWith('server:');
-                                        final isError = message.contains('failed');
-                                        
-                                        return Padding(
-                                          padding: const EdgeInsets.only(bottom: 8),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                            decoration: BoxDecoration(
-                                              color: isError
-                                                  ? brightPink.withOpacity(0.15)
-                                                  : isServer
-                                                      ? deepPurple.withOpacity(0.15)
-                                                      : lightBlue.withOpacity(0.5),
-                                              borderRadius: BorderRadius.circular(12),
-                                              border: Border.all(
-                                                color: isError
-                                                    ? brightPink.withOpacity(0.3)
-                                                    : isServer
-                                                        ? ( deepPurple).withOpacity(0.3)
-                                                        : Colors.transparent,
-                                                width: 1,
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black.withOpacity(0.05),
-                                                  blurRadius: 5,
-                                                  offset: const Offset(0, 2),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  isError
-                                                      ? Icons.error_outline
-                                                      : isServer
-                                                          ? Icons.computer
-                                                          : Icons.info_outline,
-                                                  size: 18,
-                                                  color: isError
-                                                      ? brightPink
-                                                      : isServer
-                                                          ?  deepPurple
-                                                          : Theme.of(context).colorScheme.primary,
-                                                ),
-                                                const SizedBox(width: 12),
-                                                Expanded(
-                                                  child: Text(
-                                                    message,
-                                                    style: TextStyle(
-                                                      fontWeight: isServer || isError ? FontWeight.bold : FontWeight.normal,
-                                                      color: isError
-                                                          ? brightPink
-                                                          : isServer
-                                                              ?  deepPurple
-                                                              : Theme.of(context).colorScheme.primary,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
                                     ),
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
