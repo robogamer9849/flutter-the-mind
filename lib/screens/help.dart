@@ -18,6 +18,8 @@ class _HelpScreenState extends State<HelpScreen> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         elevation: 0,
+        backgroundColor: Colors.grey.shade50,
+        foregroundColor: magenta,
         centerTitle: true,
       ),      
       body: Container(
@@ -88,7 +90,7 @@ class _HelpScreenState extends State<HelpScreen> {
 
   Widget _buildSetupSection() {
     return Card(
-      // color: Colors.transparent,
+      color: Colors.grey.shade50,
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -155,6 +157,7 @@ class _HelpScreenState extends State<HelpScreen> {
   Widget _buildGameplaySection() {
     return Card(
       elevation: 2,
+      color: Colors.grey.shade50,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),

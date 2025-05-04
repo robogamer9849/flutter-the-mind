@@ -196,6 +196,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         centerTitle: true,
         elevation: 2,
         backgroundColor: Colors.white,
+        foregroundColor: indigoBlue,
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -220,9 +221,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 Card(
                   elevation: 8,
                   shadowColor: deepPurple.withOpacity(0.4),
+                  color: Colors.grey.shade50,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(color: indigoBlue, width: 1.5),
+                    side: const BorderSide(color: Colors.lightBlue, width: 1.5),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
@@ -282,9 +284,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 Card(
                   elevation: 8,
                   shadowColor: deepPurple.withOpacity(0.4),
+                  color: Colors.grey.shade50,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(color: indigoBlue, width: 1.5),
+                    side: const BorderSide(color: Colors.lightBlue, width: 1.5),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20),

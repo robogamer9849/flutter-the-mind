@@ -134,9 +134,8 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
   late AnimationController _animationController; // Animation controller for fade effect
   late Animation<double> _fadeAnimation; // Fade animation
 
-  final TextEditingController ipController = TextEditingController(text: '0.0.0.0'); // IP address input
+  final TextEditingController ipController = TextEditingController(text: ''); // IP address input
   final TextEditingController portController = TextEditingController(text: '6000'); // Port input
-  final TextEditingController messageController = TextEditingController(); // Message input
 
   @override
   void initState() {
@@ -232,13 +231,11 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
     _animationController.dispose();
     ipController.dispose();
     portController.dispose();
-    messageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     
     // Build the main UI of TcpPage
     return Scaffold(
@@ -271,19 +268,11 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
         backgroundColor: Colors.transparent,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: isDarkMode
-                ? [
-                    darkPurple,
-                    purple,
-                    violet,
-                    magenta,
-                    pink,
-                  ]
-                : [
+            colors: [
                     lightBlue,
                     blue,
                     indigoBlue,
@@ -302,22 +291,17 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                 children: [
                   Card(
                     elevation: 8,
-                    shadowColor: isDarkMode ? Colors.black54 : Colors.black26,
+                    shadowColor:  Colors.black26,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: isDarkMode
-                              ? [
-                                  Colors.grey.shade900,
-                                  Colors.grey.shade800,
-                                ]
-                              : [
+                          colors: [
                                   Colors.white,
                                   Colors.grey.shade50,
-                                ],
+                                  ],
                         ),
                       ),
                       child: Padding(
@@ -327,9 +311,9 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                           children: [
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.settings_ethernet,
-                                  color: isDarkMode ? lightBlue : deepPurple,
+                                  color: deepPurple,
                                   size: 28,
                                 ),
                                 const SizedBox(width: 12),
@@ -337,7 +321,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                   'Connection Settings',
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: isDarkMode ? lightBlue : deepPurple,
+                                    color: deepPurple,
                                   ),
                                 ),
                               ],
@@ -348,13 +332,16 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                 Expanded(
                                   child: TextField(
                                     controller: ipController,
+                                    style: TextStyle(
+                                      color:  Colors.blue.shade900,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                     decoration: InputDecoration(
                                       labelText: 'IP Address',
-                                      prefixIcon: Icon(Icons.computer, color: isDarkMode ? blue : indigoBlue),
-                                      fillColor: isDarkMode 
-                                          ? Colors.grey.shade800 
-                                          : Colors.grey.shade100,
-                                      labelStyle: TextStyle(color: isDarkMode ? blue : indigoBlue),
+                                      prefixIcon: const Icon(Icons.computer, color: indigoBlue),
+                                      fillColor:  Colors.grey.shade100,
+                                      labelStyle: const TextStyle(color: indigoBlue),
                                     ),
                                   ),
                                 ),
@@ -362,13 +349,16 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                 Expanded(
                                   child: TextField(
                                     controller: portController,
+                                    style: TextStyle(
+                                      color:  Colors.blue.shade900,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                     decoration: InputDecoration(
                                       labelText: 'Port',
-                                      prefixIcon: Icon(Icons.numbers, color: isDarkMode ? blue : indigoBlue),
-                                      fillColor: isDarkMode 
-                                          ? Colors.grey.shade800 
-                                          : Colors.grey.shade100,
-                                      labelStyle: TextStyle(color: isDarkMode ? blue : indigoBlue),
+                                      prefixIcon: const Icon(Icons.numbers, color:  indigoBlue),
+                                      fillColor: Colors.grey.shade100,
+                                      labelStyle: const TextStyle(color: indigoBlue),
                                     ),
                                     keyboardType: TextInputType.number,
                                   ),
@@ -391,11 +381,11 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: isDarkMode ? brightPink : pink,
+                                      backgroundColor: pink,
                                       foregroundColor: Colors.white,
                                       padding: const EdgeInsets.symmetric(vertical: 16),
                                       elevation: 5,
-                                      shadowColor: isDarkMode ? brightPink.withOpacity(0.5) : pink.withOpacity(0.5),
+                                      shadowColor:  pink.withOpacity(0.5),
                                     ),
                                   ),
                                 ),
@@ -403,6 +393,13 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                 Expanded(
                                   child: ElevatedButton.icon(
                                     onPressed: connectToServer,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: indigoBlue,
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 16),
+                                      elevation: 5,
+                                      shadowColor: indigoBlue.withOpacity(0.5),
+                                    ),
                                     icon: const Icon(Icons.login),
                                     label: const Text(
                                       'Join Game',
@@ -424,7 +421,8 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                   Expanded(
                     child: Card(
                       elevation: 8,
-                      shadowColor: isDarkMode ? Colors.black54 : Colors.black26,
+                      shadowColor: Colors.black26,
+                      color: Colors.grey.shade50,
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: Column(
@@ -432,9 +430,9 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                           children: [
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.message_rounded,
-                                  color: isDarkMode ? brightPink : pink,
+                                  color: pink,
                                   size: 28,
                                 ),
                                 const SizedBox(width: 12),
@@ -442,7 +440,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                   'Connection Log',
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: isDarkMode ? brightPink : pink,
+                                    color: pink,
                                   ),
                                 ),
                               ],
@@ -450,7 +448,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                             const SizedBox(height: 12),
                             Divider(
                               thickness: 1.5,
-                              color: isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300,
+                              color: Colors.grey.shade300,
                             ),
                             Expanded(
                               child: messages.isEmpty
@@ -461,13 +459,13 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                           Icon(
                                             Icons.info_outline,
                                             size: 48,
-                                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+                                            color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
                                           ),
                                           const SizedBox(height: 16),
                                           Text(
                                             'No connection activity yet',
                                             style: TextStyle(
-                                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                                              color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
                                               fontSize: 16,
                                             ),
                                           ),
@@ -475,7 +473,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                           Text(
                                             'Host or join a game to get started',
                                             style: TextStyle(
-                                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+                                              color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
                                               fontSize: 14,
                                             ),
                                           ),
@@ -499,16 +497,14 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                               color: isError
                                                   ? brightPink.withOpacity(0.15)
                                                   : isServer
-                                                      ? (isDarkMode ? indigoBlue : deepPurple).withOpacity(0.15)
-                                                      : isDarkMode
-                                                          ? Colors.grey.shade800.withOpacity(0.7)
-                                                          : Colors.grey.shade200.withOpacity(0.7),
+                                                      ? deepPurple.withOpacity(0.15)
+                                                      :Colors.grey.shade200.withOpacity(0.7),
                                               borderRadius: BorderRadius.circular(12),
                                               border: Border.all(
                                                 color: isError
                                                     ? brightPink.withOpacity(0.3)
                                                     : isServer
-                                                        ? (isDarkMode ? indigoBlue : deepPurple).withOpacity(0.3)
+                                                        ? ( deepPurple).withOpacity(0.3)
                                                         : Colors.transparent,
                                                 width: 1,
                                               ),
@@ -532,7 +528,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                                   color: isError
                                                       ? brightPink
                                                       : isServer
-                                                          ? (isDarkMode ? indigoBlue : deepPurple)
+                                                          ?  deepPurple
                                                           : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                                                 ),
                                                 const SizedBox(width: 12),
@@ -544,7 +540,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                                       color: isError
                                                           ? brightPink
                                                           : isServer
-                                                              ? (isDarkMode ? indigoBlue : deepPurple)
+                                                              ?  deepPurple
                                                               : null,
                                                     ),
                                                   ),
