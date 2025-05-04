@@ -175,29 +175,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(
-              isConnected ? Icons.wifi : Icons.wifi_off,
-              size: 20,
-              color: isConnected ? indigoBlue : brightPink,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              widget.host,
-              style: const TextStyle(
-                color: deepPurple,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        centerTitle: true,
-        elevation: 2,
-        backgroundColor: Colors.white,
-        foregroundColor: indigoBlue,
-      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -215,8 +192,32 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                AppBar(
+                  title: Row(
+                    children: [
+                      Icon(
+                        isConnected ? Icons.wifi : Icons.wifi_off,
+                        size: 20,
+                        color: isConnected ? indigoBlue : brightPink,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        widget.host,
+                        style: const TextStyle(
+                          color: deepPurple,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  centerTitle: true,
+                  elevation: 2,
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: purple,
+                ),
+                const SizedBox(height: 30),
                 // Score Card
                 Card(
                   elevation: 8,

@@ -11,17 +11,7 @@ class HelpScreen extends StatefulWidget {
 class _HelpScreenState extends State<HelpScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'How to Play',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-        elevation: 0,
-        backgroundColor: Colors.grey.shade50,
-        foregroundColor: magenta,
-        centerTitle: true,
-      ),      
+    return Scaffold( 
       body: Container(
         height: 3000,
         decoration: const BoxDecoration(
@@ -38,12 +28,23 @@ class _HelpScreenState extends State<HelpScreen> {
           ),
         ),
         child: SingleChildScrollView(
+
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AppBar(
+                  title: const Text(
+                    'How to Play',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
+                  elevation: 0,
+                  foregroundColor: lightBlue,
+                  centerTitle: true,
+                  backgroundColor: Colors.transparent,
+                ),      
                 _buildHeader(),
                 const SizedBox(height: 24),
                 _buildSetupSection(),

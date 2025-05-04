@@ -486,7 +486,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                       physics: const BouncingScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         final message = messages[index];
-                                        final isServer = message.startsWith('Server:');
+                                        final isServer = message.startsWith('server:');
                                         final isError = message.contains('failed');
                                         
                                         return Padding(
@@ -498,7 +498,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                                   ? brightPink.withOpacity(0.15)
                                                   : isServer
                                                       ? deepPurple.withOpacity(0.15)
-                                                      :Colors.grey.shade200.withOpacity(0.7),
+                                                      : lightBlue.withOpacity(0.5),
                                               borderRadius: BorderRadius.circular(12),
                                               border: Border.all(
                                                 color: isError
@@ -529,7 +529,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                                       ? brightPink
                                                       : isServer
                                                           ?  deepPurple
-                                                          : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                                                          : Theme.of(context).colorScheme.primary,
                                                 ),
                                                 const SizedBox(width: 12),
                                                 Expanded(
@@ -541,7 +541,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                                           ? brightPink
                                                           : isServer
                                                               ?  deepPurple
-                                                              : null,
+                                                              : Theme.of(context).colorScheme.primary,
                                                     ),
                                                   ),
                                                 ),
