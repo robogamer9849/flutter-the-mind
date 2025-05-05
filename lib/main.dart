@@ -247,12 +247,12 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: const Icon(Icons.language_rounded),
+              icon: const Icon(Icons.settings),
               onPressed: () {
-                setState(() {
-                  isEn = !isEn;
-                  
-                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                );
               }
             ),
             Text(
