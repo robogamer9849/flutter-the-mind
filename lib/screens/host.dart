@@ -101,7 +101,8 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               setState(() {});
             }
             else {
-              client.write('no  :(');              scores[client.remoteAddress.address] = (scores[client.remoteAddress.address] ?? 0) - 1;
+              client.write('no  :(');
+              scores[client.remoteAddress.address] = (scores[client.remoteAddress.address] ?? 0) - 1;
               // Update UI when scores change
               setState(() {});
             }
@@ -156,15 +157,14 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
             child: Row(
               children: [
                 IconButton(
-                  icon: const Icon(
-                    Icons.language_rounded, 
-                    color: lightBlue),
-                  onPressed: () {
-                    setState(() {
-                      isEn = !isEn;
-                    });
-                  }
-                ),
+              icon: const Icon(Icons.settings, color: lightBlue,),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                );
+              }
+            ),
                 const SizedBox(width: 10,),
                 Icon(
                   isServerRunning ? Icons.cloud_done : Icons.cloud_off,

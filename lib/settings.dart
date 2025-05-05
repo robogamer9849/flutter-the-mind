@@ -43,40 +43,108 @@ class _SettingsScreenState extends State<SettingsScreen> {
               color: Colors.grey.shade50,
               child: Column(
                 children: [
-                      // const Icon(
-                      //   Icons.language,
-                      //   size: 40,
-                      //   color: Colors.blue,
-                      // ),
-                      ListTile(
-                        iconColor: blue,
-                        leading: const Icon(Icons.language),
-                        title: Text(
-                          isEn ? 'Language' : 'زبان',
-                          style: const TextStyle(fontSize: 20, color: Colors.black),
+                  ListTile(
+                    iconColor: blue,
+                    leading: const Icon(Icons.language),
+                    title: Text(
+                      isEn ? 'Language' : 'زبان',
+                      style: const TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                    trailing: DropdownButton<String>(
+                      value: isEn ? 'English' : 'فارسی',
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          isEn = newValue == 'English' ? true : false;
+                        });
+                      },
+                      items: <String>['English', 'فارسی']
+                        .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: const TextStyle(color: Colors.black)
+                            ),
+                          );
+                        }
+                      ).toList(),
+                      dropdownColor: Colors.grey.shade50,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    // TODO: onPress of these go to myket things
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: null,
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.favorite_rounded,
+                              color: blue, size: 15
+                              ),
+                            const SizedBox(width: 5),
+                            Text(
+                              isEn ? 'rate me!' : 'بهم امتیاز بده!', 
+                              style: const TextStyle(
+                              color: blue, 
+                              fontSize: 15, 
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ]
                         ),
-                        trailing: DropdownButton<String>(
-                          value: isEn ? 'English' : 'فارسی',
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              isEn = newValue == 'English' ? true : false;
-                            });
-                          },
-                          items: <String>['English', 'فارسی']
-                            .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: const TextStyle(color: Colors.black)
-                                ),
-                              );
-                            }
-                          ).toList(),
-                          dropdownColor: Colors.grey,
+                      ),
+                      const SizedBox(width: 10,),
+                      ElevatedButton(
+                        onPressed: null,
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.share_rounded,
+                              color: blue, size: 15
+                              ),
+                            const SizedBox(width: 5),
+                            Text(
+                              isEn ? 'share me!' : 'به بقیه معرفیم کن!', 
+                              style: const TextStyle(
+                              color: blue, 
+                              fontSize: 15, 
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ]
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 5,),
+                  const Divider(
+                    height: 1,
+                    color: Colors.grey,
+                    thickness: 1,
+                  ),
+                  const SizedBox(height: 5,),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.copyright_rounded,
+                        color: blue,
+                        ),
+                      SizedBox(width: 2),
+                      Text(
+                        'taha415',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold
+                        )
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 5,),
+                ],
               ),
             )
           ],
