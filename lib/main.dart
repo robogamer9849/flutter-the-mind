@@ -186,12 +186,12 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
       socket?.listen((data) {
         String message = utf8.decode(data);
         setState(() {
-          messages.add('Server: $message');
+          messages.add(isEn ? 'Server: $message' : 'سرور: $message');
         });
       });
       
       setState(() {
-        messages.add('Connected to server.');
+        messages.add(isEn ? 'Connected to server.' : 'با موفقیت به سرور متصل شدید.');
       });
 
       Navigator.push(

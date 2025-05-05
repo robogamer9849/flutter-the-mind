@@ -212,6 +212,18 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
+                  actions: [
+                    IconButton(
+                        icon: const Icon(
+                          Icons.language_rounded, 
+                          color: deepPurple),
+                        onPressed: () {
+                          setState(() {
+                            isEn = !isEn;
+                          });
+                        }
+                      ),
+                  ],
                   centerTitle: true,
                   elevation: 2,
                   backgroundColor: Colors.transparent,

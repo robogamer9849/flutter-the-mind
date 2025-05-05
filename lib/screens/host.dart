@@ -153,10 +153,25 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: Icon(
-              isServerRunning ? Icons.cloud_done : Icons.cloud_off,
-              color: isServerRunning ? lightBlue : brightPink,
-            ),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.language_rounded, 
+                    color: lightBlue),
+                  onPressed: () {
+                    setState(() {
+                      isEn = !isEn;
+                    });
+                  }
+                ),
+                const SizedBox(width: 10,),
+                Icon(
+                  isServerRunning ? Icons.cloud_done : Icons.cloud_off,
+                  color: isServerRunning ? lightBlue : brightPink,
+                ),
+              ]
+            )
           ),
         ],
       ),
