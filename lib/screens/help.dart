@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/themes/colors.dart';
+import '/settings.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
@@ -36,9 +37,9 @@ class _HelpScreenState extends State<HelpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppBar(
-                  title: const Text(
-                    'How to Play',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  title: Text(
+                    isEn ? 'How to Play' : 'آموزش بازی',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                   ),
                   elevation: 0,
                   foregroundColor: lightBlue,
@@ -62,23 +63,22 @@ class _HelpScreenState extends State<HelpScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        // color: lightBlue.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const Center(
+      child: Center(
         child: Column(
           children: [
             Text(
-              '🎮 THE MIND 🎮',
-              style: TextStyle(
+              isEn ? '🎮 THE MIND 🎮' : '🎮 مایند 🎮',
+              style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: lightBlue,
               ),
             ),
             Text(
-              'Telepathy Game',
-              style: TextStyle(
+              isEn ? 'Telepathy Game' : 'بازی تلپاتی مایند',
+              style: const TextStyle(
                 fontSize: 20,
                 color: brightPink,
                 fontWeight: FontWeight.w500,
@@ -101,26 +101,26 @@ class _HelpScreenState extends State<HelpScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '🚀 Game Setup',
-              style: TextStyle(
+            Text(
+              isEn ? '🚀 Game Setup' : '🚀 راه اندازی بازی',
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: blue,
               ),
             ),
             const SizedBox(height: 16),
-            _buildSetupStep('1', 'Share the app with friends', pink),
-            _buildSetupStep('2', 'Connect to the same WiFi', brightPink),
-            _buildSetupStep('3', 'One player hosts the game', blue),
-            _buildSetupStep('4', 'Choose a difficulty level', indigoBlue),
+            _buildSetupStep('1', isEn ? 'Share the app with friends' : 'اپلیکیشن را با دوستان به اشتراک بگذارید', pink),
+            _buildSetupStep('2', isEn ? 'Connect to the same WiFi' : 'همه یه یه وای فای وصل شین', brightPink),
+            _buildSetupStep('3', isEn ? 'One player hosts the game' : 'یکی هاست میشه', blue),
+            _buildSetupStep('4', isEn ? 'Choose max number' : 'بزرگ ترین عدد رو انتخاب کنین', indigoBlue),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSetupStep(String number, String text, Color color) {
+  Widget _buildSetupStep(String number, String? text, Color color) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -144,7 +144,7 @@ class _HelpScreenState extends State<HelpScreen> {
           ),
           const SizedBox(width: 12),
           Text(
-            text,
+            text ?? '',
             style: TextStyle(
               fontSize: 16,
               color: color,
@@ -167,27 +167,27 @@ class _HelpScreenState extends State<HelpScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '🎮 How to Play',
-              style: TextStyle(
+            Text(
+              isEn ? '🎮 How to Play' : '🎮 آموزش خود بازی',
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: magenta,
               ),
             ),
             const SizedBox(height: 16),
-            _buildGameplayRule('Get your secret number', pink),
-            _buildGameplayRule('Play the lowest number first', brightPink),
-            _buildGameplayRule('Correct guess = +1 point', lightBlue),
-            _buildGameplayRule('Wrong guess = -1 point', blue),
-            _buildGameplayRule('Highest score wins!', indigoBlue),
+            _buildGameplayRule(isEn ? 'Get your secret number' : 'عدد مخفیت رو بگیر', pink),
+            _buildGameplayRule(isEn ? 'guess if you have lowest number first' : 'حدس بزن کوچی ترینی یا نه', brightPink),
+            _buildGameplayRule(isEn ? 'Correct guess = +1 point' : 'درست گفتی؟ 1 امتیاز بگیر', lightBlue),
+            _buildGameplayRule(isEn ? 'Wrong guess = -1 point' : 'غلط گفتی؟ 1 امیازت میره', blue),
+            _buildGameplayRule(isEn ? 'Highest score wins!' : 'بیشترین امتیاز برندس', indigoBlue),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildGameplayRule(String text, Color color) {
+  Widget _buildGameplayRule(String? text, Color color) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -195,7 +195,7 @@ class _HelpScreenState extends State<HelpScreen> {
           Icon(Icons.play_arrow, color: color),
           const SizedBox(width: 12),
           Text(
-            text,
+            text ?? '',
             style: TextStyle(
               fontSize: 16,
               color: color,

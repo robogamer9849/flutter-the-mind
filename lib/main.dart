@@ -8,6 +8,7 @@ import 'themes/colors.dart';
 import 'screens/host.dart';
 import 'screens/game.dart';
 import 'screens/help.dart';
+import 'settings.dart';
 
 
 // Main entry point of the application
@@ -31,9 +32,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+
     // Define our custom colors from the provided hex codes
     return MaterialApp(
-      title: 'The Mind',
+      title: isEn ? 'THE MIND' : 'مایند',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
         brightness: Brightness.light,
@@ -117,7 +120,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 // TcpPage widget that manages the connection settings
 class TcpPage extends StatefulWidget {
   const TcpPage({super.key});
@@ -176,7 +178,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
     int port = int.tryParse(portController.text) ?? 6000;
     
     setState(() {
-      messages.add('Connecting to $ip:$port...');
+      messages.add(isEn ? 'Connecting to $ip:$port...' : 'در حال اتصال به سرور...');
     });
     
     try {
@@ -244,10 +246,18 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(width: 20),
-            const Text(
-              'THE MIND',
-              style: TextStyle(
+            IconButton(
+              icon: const Icon(Icons.language_rounded),
+              onPressed: () {
+                setState(() {
+                  isEn = !isEn;
+                  
+                });
+              }
+            ),
+            Text(
+              isEn ? 'The Mind' : 'مایند',
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -318,7 +328,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
-                                  'Connection Settings',
+                                  isEn ? 'Connect to a server' : 'اتصال به سرور',
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: deepPurple,
@@ -338,7 +348,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                       fontWeight: FontWeight.bold,
                                     ),
                                     decoration: InputDecoration(
-                                      labelText: 'IP Address',
+                                      labelText: isEn ? 'IP address' : 'آدرس آی پی',
                                       prefixIcon: const Icon(Icons.computer, color: indigoBlue),
                                       fillColor:  Colors.grey.shade100,
                                       labelStyle: const TextStyle(color: indigoBlue),
@@ -355,7 +365,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                       fontWeight: FontWeight.bold,
                                     ),
                                     decoration: InputDecoration(
-                                      labelText: 'Port',
+                                      labelText: isEn ? 'Port' : 'پورت',
                                       prefixIcon: const Icon(Icons.numbers, color:  indigoBlue),
                                       fillColor: Colors.grey.shade100,
                                       labelStyle: const TextStyle(color: indigoBlue),
@@ -373,9 +383,10 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                   child: ElevatedButton.icon(
                                     onPressed: goToHost,
                                     icon: const Icon(Icons.router),
-                                    label: const Text(
-                                      'Host Game',
-                                      style: TextStyle(
+                                    label: Text(
+                                      // texts['host'] ?? 'Host',
+                                      isEn ? 'Host' : 'میزبان',
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                       ),
@@ -401,9 +412,9 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                       shadowColor: indigoBlue.withOpacity(0.5),
                                     ),
                                     icon: const Icon(Icons.login),
-                                    label: const Text(
-                                      'Join Game',
-                                      style: TextStyle(
+                                    label: Text(
+                                      isEn ? 'join game' : 'اتصال به بازی',
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                       ),
@@ -437,7 +448,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
-                                  'Connection Log',
+                                  isEn ? 'connection logs' : 'لاگ های اتصال',
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: pink,
@@ -462,7 +473,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                     ),
                                     const SizedBox(height: 16),
                                     Text(
-                                      'No connection activity yet',
+                                      isEn ? 'no activity yet' : 'هنوز هیچ فعالیت وجود ندارد',
                                       style: TextStyle(
                                         color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
                                         fontSize: 16,
@@ -470,7 +481,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      'Host or join a game to get started',
+                                      isEn ? 'Host or join a game to get started' : 'برای شروع بازی به عنوان سرور یا کلاینت وارد شوید',
                                       style: TextStyle(
                                         color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
                                         fontSize: 14,

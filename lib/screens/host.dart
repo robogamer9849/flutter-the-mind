@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import '/themes/colors.dart';
+import '/settings.dart';
+
 import 'game.dart';
 
 class HostMenuScreen extends StatefulWidget {
@@ -16,7 +18,7 @@ class HostMenuScreen extends StatefulWidget {
 }
 
 class _HostMenuScreenState extends State<HostMenuScreen> {
-  String ip = 'Fetching IP...';
+  String ip = isEn ? 'Fetching IP...' : 'دریافت آی ءي...';
   int maxNumber = 100;
   Map<String, int> clients = {};
   Map<String, int> scores = {};
@@ -43,7 +45,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
         });
       } else {
         setState(() {
-          ip = 'No network interfaces found';
+          ip = isEn ? 'No network interfaces found' : 'هیچ سرور شبکه فعالی یافت نشد';
         });
       }
     } catch (e) {
@@ -99,8 +101,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
               setState(() {});
             }
             else {
-              client.write('no  :(');
-              scores[client.remoteAddress.address] = (scores[client.remoteAddress.address] ?? 0) - 1;
+              client.write('no  :(');              scores[client.remoteAddress.address] = (scores[client.remoteAddress.address] ?? 0) - 1;
               // Update UI when scores change
               setState(() {});
             }
@@ -139,8 +140,9 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Game Host', 
-          style: TextStyle(
+        title: Text(
+          isEn ? 'Game Host' : 'هاست بازی', 
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: lightBlue,
           ),
@@ -195,7 +197,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Server Information',
+                            isEn ? 'Server Information' : 'اطلاعات سرور',
                             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               color: deepPurple,
                               fontWeight: FontWeight.bold,
@@ -210,7 +212,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                           const Icon(Icons.computer, size: 20, color: blue),
                           const SizedBox(width: 8),
                           Text(
-                            'Server IP:',
+                            isEn ? 'IP:' : 'آی پی:',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: deepPurple,
                             ),
@@ -241,7 +243,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                           const Icon(Icons.numbers, size: 20, color: blue),
                           const SizedBox(width: 8),
                           Text(
-                            'Port:',
+                            isEn ? 'Port:' : 'پورت:',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: deepPurple,
                             ),
@@ -292,7 +294,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Game Settings',
+                            isEn ? 'Game Settings' : 'تنظیمات بازی',
                             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               color: purple,
                               fontWeight: FontWeight.bold,
@@ -306,7 +308,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Maximum Number:',
+                            isEn ? 'Maximum Number:' : 'حداکثر عدد:',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: purple,
                             ),
@@ -342,9 +344,9 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                         ),
                         child: Slider(
                           value: maxNumber.toDouble(),
-                          min: 0,
+                          min: 100,
                           max: 1000,
-                          divisions: 100,
+                          divisions: 9,
                           label: maxNumber.toString(),
                           onChanged: (double value) {
                             debugPrint(value.toString());
@@ -393,7 +395,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Connected Players',
+                                  isEn ? 'Connected Players' : 'کاربران متصل',
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                     color: deepPurple,
                                     fontWeight: FontWeight.bold,
@@ -409,7 +411,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                 border: Border.all(color: blue),
                               ),
                               child: Text(
-                                '${clients.length} players',
+                                isEn ? '${clients.length} players' : '${clients.length} :بازیکنان ',
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: deepPurple,
@@ -432,7 +434,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                       ),
                                       const SizedBox(height: 16),
                                       Text(
-                                        'No players connected yet',
+                                        isEn ? 'No players connected yet' : 'هیچ بازیکنی متصل نیست',
                                         style: TextStyle(
                                           color: deepPurple.withOpacity(0.5),
                                           fontSize: 16,
@@ -445,7 +447,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                   itemCount: clients.length,
                                   itemBuilder: (context, index) {
                                     String clientIp = clients.keys.elementAt(index);
-                                    int? clientNumber = clients[clientIp];
+                                    // int? clientNumber = clients[clientIp];
                                     int? clientScore = scores[clientIp] ?? 0;
                                     
                                     return Card(
@@ -467,14 +469,14 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                           ),
                                         ),
                                         title: Text(
-                                          'Player: $clientIp',
+                                          isEn ? 'Player: $clientIp' : 'بازیکن: $clientIp',
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: deepPurple,
                                           ),
                                         ),
                                         subtitle: Text(
-                                          'Number: $clientNumber',
+                                          isEn ? 'Number: you cant see the number!!' : 'شماره: شما نمی توانید شماره را ببینید!!',
                                           style: const TextStyle(
                                             color: purple,
                                           ),
@@ -487,7 +489,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                                             border: Border.all(color: blue),
                                           ),
                                           child: Text(
-                                            'Score: $clientScore',
+                                            isEn ? 'Score: $clientScore' : 'امتیاز: $clientScore',
                                             style: const TextStyle(
                                               color: deepPurple,
                                               fontWeight: FontWeight.bold,
@@ -516,9 +518,9 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                   ),
                   elevation: 5,
                 ),
-                child: const Text(
-                  'START GAME',
-                  style: TextStyle(
+                child: Text(
+                  isEn ? 'START GAME' : 'شروع بازی',
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,

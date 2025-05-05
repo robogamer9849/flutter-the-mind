@@ -2,6 +2,7 @@ import 'dart:io';
 
 import '/themes/colors.dart';
 import 'package:flutter/material.dart';
+import '/settings.dart';
 
 class GameScreen extends StatefulWidget {
   final int port;
@@ -16,11 +17,11 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int number = -1;
   int score = 0;
-  String state = 'show';
+  String state = isEn ? 'show' : 'نمایش';
   Socket? clientSocket;
   ServerSocket? server;
   bool isConnected = false;
-  String connectionStatus = 'Connecting...';
+  String connectionStatus = isEn ? 'Connecting...' : 'در حال اتصال...';
   
   // Animation controller for number reveal
   late AnimationController _animationController;
@@ -60,7 +61,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   void _setupServer() async {
     try {
       setState(() {
-        connectionStatus = 'Connecting to ${widget.host}:${widget.port}...';
+        connectionStatus = isEn ? 'Connecting to ${widget.host}:${widget.port}...' : 'به ${widget.host}:${widget.port} متصل شد...';
         isConnected = false;
       });
       
@@ -68,7 +69,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       debugPrint('Connected to server at ${widget.host}:${widget.port}');
       
       setState(() {
-        connectionStatus = 'Connected';
+        connectionStatus = isEn ? 'Connected' : 'متصل شده';
         isConnected = true;
       });
       
@@ -87,7 +88,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     catch (e) {
       debugPrint('Error connecting to server: $e');
       setState(() {
-        connectionStatus = 'Connection failed: ${e.toString()}';
+        connectionStatus = isEn ? 'Connection failed: ${e.toString()}' : 'خطا در اتصال: ${e.toString()}';
         isConnected = false;
       });
     }
@@ -97,7 +98,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     if (clientSocket != null) {
       try {
         setState(() {
-          state = 'Checking...';
+          state = isEn ? 'Checking...' : 'چک کردن...';
         });
         
         clientSocket = await Socket.connect(widget.host, widget.port);
@@ -111,13 +112,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           
           // First UI update
           setState(() {
-            state = reply;
+            state = isEn ? reply : reply == 'yes :)' ? 'آره :)' : 'نه :(';
           });
           
           // Wait and then reset
           Future.delayed(const Duration(seconds: 1), () {
             setState(() {
-              state = 'show';
+              state = isEn ? 'show' : 'نمایش';
             });
             _setupServer();
             _updateScore();
@@ -127,8 +128,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       catch (e) {
         debugPrint('Error connecting to server: $e');
         setState(() {
-          state = 'Error';
-          connectionStatus = 'Connection error: ${e.toString()}';
+          state = isEn ? 'Error' : 'خطا';
+          connectionStatus = isEn ? 'Connection error: ${e.toString()}' : 'خطا در اتصال: ${e.toString()}';
           isConnected = false;
         });
       }
@@ -136,7 +137,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     else {
       debugPrint('No client connected to send "show" command');
       setState(() {
-        connectionStatus = 'Not connected';
+        connectionStatus = isEn ? 'Not connected' : 'متصل نیست';
         isConnected = false;
       });
       _setupServer(); // Try to reconnect
@@ -230,18 +231,18 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.stars,
                               color: magenta,
                               size: 28,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
-                              'Your Score',
-                              style: TextStyle(
+                              isEn ? 'Your Score' : 'امتیاز شما',
+                              style: const  TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: darkPurple,
@@ -293,18 +294,18 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.numbers,
                               color: indigoBlue,
                               size: 28,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
-                              'Your Number',
-                              style: TextStyle(
+                              isEn ? 'Your Number' : 'عدد شما',
+                              style: const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: darkPurple,
@@ -390,9 +391,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   child: ElevatedButton(
                     onPressed: show,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: state == 'yes :)' 
+                      backgroundColor: state == 'yes :)'  || state == 'آره :)'
                           ? Colors.green.shade600
-                          : (state == 'no  :(' 
+                          : (state == 'no  :(' || state == 'نه :('
                               ? brightPink
                               : deepPurple),
                       foregroundColor: Colors.white,
