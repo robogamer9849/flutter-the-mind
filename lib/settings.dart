@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'themes/colors.dart';
 
 bool isEn = false;
+
+_scoreInMyket() async {
+  const url = 'myket://comment?id=the.mind.themind';
+  if(await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  }
+  else {
+    debugPrint('cant open');
+  }
+}
 
 
 class SettingsScreen extends StatefulWidget {
@@ -73,11 +85,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 10),
                   Row(
-                    // TODO: onPress of these go to myket things
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: null,
+                        onPressed: _scoreInMyket,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey.shade200
+                        ),
                         child: Row(
                           children: [
                             const Icon(
@@ -93,12 +107,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 fontWeight: FontWeight.bold
                               ),
                             ),
-                          ]
+                          ],
                         ),
                       ),
                       const SizedBox(width: 10,),
                       ElevatedButton(
-                        onPressed: null,
+                        onPressed: () {
+                          Share.share("""
+                              حدس بزن عددت از همه کوچیک‌تره یا نه!
+                              بزنی ✅، اشتباه کنی ❌ جونت می‌ره!
+                              فقط با حس بازی کن!
+                              myket.ir
+                              """);  
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey.shade200
+                        ),
                         child: Row(
                           children: [
                             const Icon(
