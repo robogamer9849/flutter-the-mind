@@ -177,7 +177,7 @@ class _HelpScreenState extends State<HelpScreen> {
             ),
             const SizedBox(height: 16),
             _buildGameplayRule(isEn ? 'Get your secret number' : 'عدد مخفیت رو بگیر', pink),
-            _buildGameplayRule(isEn ? 'guess if you have lowest number first' : 'حدس بزن کوچی ترینی یا نه', brightPink),
+            _buildGameplayRule(isEn ? 'guess if you have lowest number first' : 'حدس بزن کوچیک ترینی یا نه', brightPink),
             _buildGameplayRule(isEn ? 'Correct guess = +1 point' : 'درست گفتی؟ 1 امتیاز بگیر', lightBlue),
             _buildGameplayRule(isEn ? 'Wrong guess = -1 point' : 'غلط گفتی؟ 1 امیازت میره', blue),
             _buildGameplayRule(isEn ? 'Highest score wins!' : 'بیشترین امتیاز برندس', indigoBlue),
