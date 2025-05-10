@@ -219,7 +219,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                        );
+                        ).then((_) {
+                            setState(() {});
+                          });
                       }
                     ),
                   ],

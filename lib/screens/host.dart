@@ -162,7 +162,9 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                );
+                ).then((_) {
+                  setState(() {});
+                });
               }
             ),
                 const SizedBox(width: 10,),

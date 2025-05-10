@@ -52,37 +52,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
               elevation: 2,
               margin: const EdgeInsets.all(16),
               color: Colors.grey.shade50,
-              child: Column(
+              child: 
+              Column(
                 children: [
-                  ListTile(
-                    iconColor: blue,
-                    leading: const Icon(Icons.language),
-                    title: Text(
-                      isEn ? 'Language' : 'زبان',
-                      style: const TextStyle(fontSize: 20, color: Colors.black),
-                    ),
-                    trailing: DropdownButton<String>(
-                      value: isEn ? 'English' : 'فارسی',
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          isEn = newValue == 'English' ? true : false;
-                        });
-                      },
-                      items: <String>['English', 'فارسی']
-                        .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: const TextStyle(color: Colors.black)
-                            ),
-                          );
-                        }
-                      ).toList(),
-                      dropdownColor: Colors.grey.shade50,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "فارسی",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Switch(
+                          value: isEn,
+                          onChanged: (bool value) {
+                            setState(() {
+                              isEn = !isEn;
+                            });
+                          },
+                        ),
+                      ),
+                      const Text(
+                        "english",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
+                        ),
+                      )
+                    ]
+                  ),                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

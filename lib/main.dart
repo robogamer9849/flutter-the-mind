@@ -252,7 +252,9 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                );
+                ).then((_) {
+                  setState(() {});
+                });
               }
             ),
             Text(
