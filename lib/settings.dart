@@ -69,8 +69,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Switch(
+                        child: 
+                        Switch(
                           value: isEn,
+                          activeTrackColor: blue,
+                          inactiveTrackColor: blue,
+                          activeColor: Colors.white,
+                          inactiveThumbColor: Colors.white,
                           onChanged: (bool value) {
                             setState(() {
                               isEn = !isEn;
