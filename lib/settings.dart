@@ -55,6 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: 
               Column(
                 children: [
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
