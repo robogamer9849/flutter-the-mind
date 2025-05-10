@@ -425,6 +425,38 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 24),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {                                                ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                        content: Center(child: Text(isEn ? 'this is not working yet :( ' : ':( این هنوز کار نمیکنه')),                                        backgroundColor: lightBlue,
+                                        behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                        margin: const EdgeInsets.all(10),
+                                        ),
+                                              );},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: indigoBlue,
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 16),
+                                      elevation: 5,
+                                      shadowColor: indigoBlue.withOpacity(0.5),
+                                    ),
+                                    icon: const Icon(Icons.online_prediction),
+                                    label: Text(
+                                      isEn ? 'online' : 'بازی آنلاین',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
