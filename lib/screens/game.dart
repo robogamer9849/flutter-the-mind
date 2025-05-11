@@ -3,6 +3,7 @@ import 'dart:io';
 import '/themes/colors.dart';
 import 'package:flutter/material.dart';
 import '/settings.dart';
+import '/online_server.dart';
 
 class GameScreen extends StatefulWidget {
   final int port;
@@ -204,7 +205,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        widget.host,
+                        widget.host == onlineIP ? 'Online' : widget.host,
                         style: const TextStyle(
                           color: deepPurple,
                           fontWeight: FontWeight.bold,

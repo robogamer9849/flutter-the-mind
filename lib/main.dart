@@ -9,6 +9,7 @@ import 'screens/host.dart';
 import 'screens/game.dart';
 import 'screens/help.dart';
 import 'settings.dart';
+import 'online_server.dart';
 
 
 // Main entry point of the application
@@ -179,6 +180,59 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
     
     setState(() {
       messages.add(isEn ? 'Connecting to $ip:$port...' : 'در حال اتصال به سرور...');
+    });
+    
+    try {
+      socket = await Socket.connect(ip, port);
+      socket?.listen((data) {
+        String message = utf8.decode(data);
+        setState(() {
+          messages.add(isEn ? 'Server: $message' : 'سرور: $message');
+        });
+      });
+      
+      setState(() {
+        messages.add(isEn ? 'Connected to server.' : 'با موفقیت به سرور متصل شدید.');
+      });
+
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => 
+            GameScreen(port: port, host: ip),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(1.0, 0.0);
+            const end = Offset.zero;
+            const curve = Curves.easeInOutCubic;
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            return SlideTransition(position: animation.drive(tween), child: child);
+          },
+        ),
+      );
+    } catch (e) {
+      setState(() {
+        messages.add('Connection failed: ${e.toString()}');
+      });
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Connection failed: ${e.toString()}'),
+          backgroundColor: const Color(0xFFF72585),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.all(10),
+        ),
+      );
+    }
+  }
+
+
+  void connectToOnlineServer() async {
+    String ip = onlineIP;
+    int port = onlinePort;
+    
+    setState(() {
+      messages.add(isEn ? 'Connecting to online server...' : 'در حال اتصال به سرور آنلاین...');
     });
     
     try {
@@ -430,14 +484,16 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                               children: [
                                 Expanded(
                                   child: ElevatedButton.icon(
-                                    onPressed: () {                                                ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                        content: Center(child: Text(isEn ? 'this is not working yet :( ' : ':( این هنوز کار نمیکنه')),                                        backgroundColor: lightBlue,
-                                        behavior: SnackBarBehavior.floating,
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                        margin: const EdgeInsets.all(10),
-                                        ),
-                                              );},
+                                    onPressed: () {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Center(child: Text(isEn ? 'this is not working yet :( ' : ':( این هنوز کار نمیکنه')),                                        backgroundColor: lightBlue,
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                            margin: const EdgeInsets.all(10),
+                                          ),
+                                        );
+                                      },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: indigoBlue,
                                       foregroundColor: Colors.white,
