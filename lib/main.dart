@@ -302,14 +302,12 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: const Icon(Icons.help),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                ).then((_) {
-                  setState(() {});
-                });
+                  MaterialPageRoute(builder: (context) => const HelpScreen()),
+                );
               }
             ),
             Text(
@@ -320,12 +318,14 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.help),
+              icon: const Icon(Icons.settings),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HelpScreen()),
-                );
+                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                ).then((_) {
+                  setState(() {});
+                });
               },
             ),
           ],
@@ -377,6 +377,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
+                              textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                               children: [
                                 const Icon(
                                   Icons.settings_ethernet,
@@ -439,6 +440,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                 Expanded(
                                   child: ElevatedButton.icon(
                                     onPressed: goToHost,
+                                    
                                     icon: const Icon(Icons.router),
                                     label: Text(
                                       // texts['host'] ?? 'Host',
@@ -531,6 +533,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
+                              textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                               children: [
                                 const Icon(
                                   Icons.message_rounded,

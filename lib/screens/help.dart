@@ -100,6 +100,7 @@ class _HelpScreenState extends State<HelpScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
           children: [
             Text(
               isEn ? '🚀 Game Setup' : '🚀 راه اندازی بازی',
@@ -124,6 +125,7 @@ class _HelpScreenState extends State<HelpScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
+        textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
         children: [
           Container(
             width: 24,
@@ -166,6 +168,7 @@ class _HelpScreenState extends State<HelpScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
           children: [
             Text(
               isEn ? '🎮 How to Play' : '🎮 آموزش خود بازی',
@@ -191,6 +194,7 @@ class _HelpScreenState extends State<HelpScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
+        textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
         children: [
           Icon(Icons.play_arrow, color: color),
           const SizedBox(width: 12),

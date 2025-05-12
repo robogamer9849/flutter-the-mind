@@ -202,20 +202,15 @@ make sure you are connected to a wifi and try again""" :
             child: Row(
               children: [
                 IconButton(
-              icon: const Icon(Icons.settings, color: lightBlue,),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                ).then((_) {
-                  setState(() {});
-                });
-              }
-            ),
-                const SizedBox(width: 10,),
-                Icon(
-                  isServerRunning ? Icons.cloud_done : Icons.cloud_off,
-                  color: isServerRunning ? lightBlue : brightPink,
+                  icon: const Icon(Icons.settings, color: lightBlue,),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                    ).then((_) {
+                      setState(() {});
+                    });
+                  }
                 ),
               ]
             )
@@ -252,6 +247,7 @@ make sure you are connected to a wifi and try again""" :
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                         children: [
                           const Icon(
                             Icons.router,
@@ -349,6 +345,7 @@ make sure you are connected to a wifi and try again""" :
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                         children: [
                           const Icon(
                             Icons.settings,
@@ -368,9 +365,10 @@ make sure you are connected to a wifi and try again""" :
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                         children: [
                           Text(
-                            isEn ? 'Maximum Number:' : 'حداکثر عدد:',
+                            isEn ? 'Maximum Number:' : ':حداکثر عدد',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: purple,
                             ),
@@ -448,8 +446,10 @@ make sure you are connected to a wifi and try again""" :
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                           children: [
                             Row(
+                              textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                               children: [
                                 const Icon(
                                   Icons.people,
