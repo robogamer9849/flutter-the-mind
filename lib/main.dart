@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           hintStyle: const TextStyle(fontWeight: FontWeight.w300),
         ),
-        cardTheme: CardThemeData(
+        cardTheme: CardTheme(
           elevation: 6,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -107,7 +107,7 @@ class MyApp extends StatelessWidget {
           hintStyle: const TextStyle(fontWeight: FontWeight.w300),
         ),
 
-        cardTheme: CardThemeData(
+        cardTheme: CardTheme(
           elevation: 6,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

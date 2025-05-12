@@ -18,7 +18,7 @@ class HostMenuScreen extends StatefulWidget {
 }
 
 class _HostMenuScreenState extends State<HostMenuScreen> {
-  String ip = isEn ? 'Fetching IP...' : 'دریافت آی ءي...';
+  String ip = isEn ? 'Fetching IP' : 'دریافت آی پي';
   int maxNumber = 100;
   Map<String, int> clients = {};
   Map<String, int> scores = {};
@@ -129,12 +129,57 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
   }
 
   void startGame() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GameScreen(port: int.tryParse(widget.port) ?? 6000, host: ip),
-      ),
-    );
+    if (ip.contains('.')) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GameScreen(port: int.tryParse(widget.port) ?? 6000, host: ip),
+        ),
+      );
+    }
+    else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text(
+              isEn ? 'Error' : 'خطا',
+              textDirection: isEn ? TextDirection.ltr : TextDirection.rtl,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: violet,
+              ),
+            ),
+            content: Text(
+              isEn ? """cannot create the server
+make sure you are connected to a wifi and try again""" : 
+                    """سرور ساخه نشد
+از اتصال دستگاه به وای فای اطمینان حاصل کنید و دوباره تلاش کنید""",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: blue,
+              
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  isEn ? 'OK' : 'باشه',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: blue,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
