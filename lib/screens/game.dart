@@ -246,6 +246,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     child: Column(
                       children: [
                         Row(
+                          textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(
@@ -309,6 +310,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     child: Column(
                       children: [
                         Row(
+                          textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(

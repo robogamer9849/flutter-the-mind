@@ -154,7 +154,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
             content: Text(
               isEn ? """cannot create the server
 make sure you are connected to a wifi and try again""" : 
-                    """سرور ساخه نشد
+                    """سرور ساخته نشد
 از اتصال دستگاه به وای فای اطمینان حاصل کنید و دوباره تلاش کنید""",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
