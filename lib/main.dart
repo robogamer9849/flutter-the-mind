@@ -212,18 +212,8 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
       );
     } catch (e) {
       setState(() {
-        messages.add('Connection failed: ${e.toString()}');
+        messages.add(isEn ? "can't connect to server \n try to check you wifi, the ip address or and the port number \n also check if the server is opened by the host" : "متاسفانه نمیتوانید به سرور متصل شوید \n لطفا از وضعیت وصل بودن وی فای و ای پی و پورت سرور اطمینان حاصل کنید \n همچنین بررسی کنید که سرور باز است یا نه");
       });
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Connection failed: ${e.toString()}'),
-          backgroundColor: const Color(0xFFF72585),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          margin: const EdgeInsets.all(10),
-        ),
-      );
     }
   }
 
@@ -265,18 +255,18 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
       );
     } catch (e) {
       setState(() {
-        messages.add('Connection failed: ${e.toString()}');
+        messages.add(isEn ? "can't connect to server \n check your internet connection" : "متاسفانه نمیتوانید به سرور متصل شوید \n چک کنید که اینترنت شما فعال باشد");
       });
       
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Connection failed: ${e.toString()}'),
-          backgroundColor: const Color(0xFFF72585),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          margin: const EdgeInsets.all(10),
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Connection failed: ${e.toString()}'),
+      //     backgroundColor: const Color(0xFFF72585),
+      //     behavior: SnackBarBehavior.floating,
+      //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      //     margin: const EdgeInsets.all(10),
+      //   ),
+      // );
     }
   }
 
@@ -583,15 +573,15 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                     ),
                                   ],
                                 ),
-                              )
-                            : ListView.builder(
+                              ):
+                              ListView.builder(
                                 itemCount: messages.length,
                                 padding: const EdgeInsets.only(top: 8),
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   final message = messages[index];
                                   final isServer = message.startsWith('server:');
-                                  final isError = message.contains('failed');
+                                  final isError = message.contains("can't connect to server") || message.contains("متاسفانه نمیتوانید به سرور متصل شوید");
                                   
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 8),
@@ -621,13 +611,12 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                         ],
                                       ),
                                       child: Row(
+                                        textDirection: isEn ? TextDirection.ltr : TextDirection.rtl,
                                         children: [
                                           Icon(
                                             isError
                                                 ? Icons.error_outline
-                                                : isServer
-                                                    ? Icons.computer
-                                                    : Icons.info_outline,
+                                                : Icons.computer,
                                             size: 18,
                                             color: isError
                                                 ? brightPink
@@ -638,6 +627,7 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                           const SizedBox(width: 12),
                                           Expanded(
                                             child: Text(
+                                              textDirection: isEn ? TextDirection.ltr : TextDirection.rtl,
                                               message,
                                               style: TextStyle(
                                                 fontWeight: isServer || isError ? FontWeight.bold : FontWeight.normal,
@@ -649,13 +639,6 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                           ),
-                                          Text(
-                                            '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     ),
@@ -663,11 +646,36 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
                                 },
                               ),
                             ),
+                            if (messages.isNotEmpty) 
+                              ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                  messages.clear();
+                                  });
+                                }, 
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.grey[300],
+                                  // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  textDirection: isEn ? TextDirection.ltr : TextDirection.rtl,
+                                  children: [
+                                    Text(isEn ? 'clear logs' : 'پاک کردن لاگ ها'),
+                                    const SizedBox(width: 8),
+                                    const Icon(Icons.delete_outline),
+                                  ],
+                                )
+                              )
                           ],
                         ),
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
