@@ -310,10 +310,14 @@ class _TcpPageState extends State<TcpPage> with SingleTickerProviderStateMixin {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
+                bool oldLang = isEn;
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SettingsScreen()),
                 ).then((_) {
+                  if (isEn != oldLang) {
+                    messages.clear();
+                  }
                   setState(() {});
                 });
               },
