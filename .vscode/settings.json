@@ -4,5 +4,6 @@
         "iface",
         "Schyler",
         "themind"
-    ]
+    ],
+    "dart.flutterSdkPath": "~/Documents/coding/python/school/flutterSDK/flutter_linux_3.24.4-stable/flutter"
 }
