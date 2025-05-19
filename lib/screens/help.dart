@@ -184,7 +184,7 @@ class _HelpScreenState extends State<HelpScreen> {
             _buildGameplayRule(isEn ? 'Correct guess = +1 point' : 'درست گفتی؟ 1 امتیاز بگیر', lightBlue),
             _buildGameplayRule(isEn ? 'Wrong guess = -1 point' : 'غلط گفتی؟ 1 امیازت میره', blue),
             _buildGameplayRule(isEn ? 'Highest score wins!' : 'بیشترین امتیاز برندس', indigoBlue),
-            _buildGameplayRule(isEn ? 'remember not to talk!\nits bad' : 'یادت باشه حرف نزن!\nکار بدیه', Colors.red)
+            _buildGameplayRule(isEn ? 'remember not to talk!\nits bad' : 'یادت باشه حرف نزنی!\nکار بدیه', Colors.red)
           ],
         ),
       ),
@@ -201,6 +201,7 @@ class _HelpScreenState extends State<HelpScreen> {
           const SizedBox(width: 12),
           Text(
             text ?? '',
+            textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
             style: TextStyle(
               fontSize: 16,
               color: color,
