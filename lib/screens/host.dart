@@ -92,7 +92,24 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
             }
           }
 
-          else if (message.startsWith('show')) {
+          else if (message.startsWith('Biggest')) {
+            if (clients[client.remoteAddress.address] == clients.values.reduce(max)) {
+              debugPrint('max number = ${clients.values.reduce(max)}');
+              client.write('yes :)');
+              scores[client.remoteAddress.address] = (scores[client.remoteAddress.address] ?? 0) + 1;
+              // Update UI when scores change
+              setState(() {});
+            }
+            else {
+              client.write('no  :(');
+              scores[client.remoteAddress.address] = (scores[client.remoteAddress.address] ?? 0) - 1;
+              // Update UI when scores change
+              setState(() {});
+            }
+            clients.remove(client.remoteAddress.address);
+          }
+
+          else if (message.startsWith('Smallest')) {
             if (clients[client.remoteAddress.address] == clients.values.reduce(min)) {
               debugPrint('min number = ${clients.values.reduce(min)}');
               client.write('yes :)');

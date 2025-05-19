@@ -18,7 +18,8 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int number = -1;
   int score = 0;
-  String state = isEn ? 'show' : 'نمایش';
+  String stateBig = isEn ? 'im big' : 'من بزرگه ام';
+  String stateSmall = isEn ? 'im small' : 'من کوچیکه ام';
   Socket? clientSocket;
   ServerSocket? server;
   bool isConnected = false;
@@ -95,17 +96,17 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     }
   }
 
-  void show() async {
+  void showBig() async {
     if (clientSocket != null) {
       try {
         setState(() {
-          state = isEn ? 'Checking...' : 'چک کردن...';
+          stateBig = isEn ? 'Checking...' : 'چک ...';
         });
         
         clientSocket = await Socket.connect(widget.host, widget.port);
         debugPrint('Connected to server at ${widget.host}:${widget.port}');
         
-        clientSocket!.write('show');
+        clientSocket!.write('Biggest');
         
         clientSocket!.listen((data) {
           String reply = String.fromCharCodes(data);
@@ -113,13 +114,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           
           // First UI update
           setState(() {
-            state = isEn ? reply : reply == 'yes :)' ? 'آره :)' : 'نه :(';
+            stateBig = isEn ? reply : reply == 'yes :)' ? 'آره :)' : 'نه :(';
           });
           
           // Wait and then reset
           Future.delayed(const Duration(seconds: 1), () {
             setState(() {
-              state = isEn ? 'show' : 'نمایش';
+              stateBig = isEn ? 'im big' : 'من بزرگه ام';
             });
             _setupServer();
             _updateScore();
@@ -129,7 +130,57 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       catch (e) {
         debugPrint('Error connecting to server: $e');
         setState(() {
-          state = isEn ? 'Error' : 'خطا';
+          stateBig = isEn ? 'Error' : 'خطا';
+          connectionStatus = isEn ? 'Connection error: ${e.toString()}' : 'خطا در اتصال: ${e.toString()}';
+          isConnected = false;
+        });
+      }
+    }
+    else {
+      debugPrint('No client connected to send "show" command');
+      setState(() {
+        connectionStatus = isEn ? 'Not connected' : 'متصل نیست';
+        isConnected = false;
+      });
+      _setupServer(); // Try to reconnect
+    }
+  }
+
+  void showSmall() async {
+    if (clientSocket != null) {
+      try {
+        setState(() {
+          stateSmall = isEn ? 'Checking...' : 'چک ...';
+        });
+        
+        clientSocket = await Socket.connect(widget.host, widget.port);
+        debugPrint('Connected to server at ${widget.host}:${widget.port}');
+        
+        clientSocket!.write('Smallest');
+        
+        clientSocket!.listen((data) {
+          String reply = String.fromCharCodes(data);
+          debugPrint('Received reply: $reply');
+          
+          // First UI update
+          setState(() {
+            stateSmall = isEn ? reply : reply == 'yes :)' ? 'آره :)' : 'نه :(';
+          });
+          
+          // Wait and then reset
+          Future.delayed(const Duration(seconds: 1), () {
+            setState(() {
+              stateSmall = isEn ? 'im small' : 'من کوچیکه ام';
+            });
+            _setupServer();
+            _updateScore();
+          });
+        });
+      } 
+      catch (e) {
+        debugPrint('Error connecting to server: $e');
+        setState(() {
+          stateSmall = isEn ? 'Error' : 'خطا';
           connectionStatus = isEn ? 'Connection error: ${e.toString()}' : 'خطا در اتصال: ${e.toString()}';
           isConnected = false;
         });
@@ -404,31 +455,63 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 SizedBox(
                   width: 220,
                   height: 65,
-                  child: ElevatedButton(
-                    onPressed: show,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: state == 'yes :)'  || state == 'آره :)'
-                          ? Colors.green.shade600
-                          : (state == 'no  :(' || state == 'نه :('
-                              ? brightPink
-                              : deepPurple),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ElevatedButton(
+                        onPressed: showBig,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: stateBig == 'yes :)'  || stateBig == 'آره :)'
+                              ? Colors.green.shade600
+                              : (stateBig == 'no  :(' || stateBig == 'نه :('
+                                  ? brightPink
+                                  : deepPurple),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            
+                          ),
+                          elevation: 8,
+                          shadowColor: darkPurple.withOpacity(0.5),
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                        ),
+                        child: Text(
+                          stateBig,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
                       ),
-                      elevation: 8,
-                      shadowColor: darkPurple.withOpacity(0.5),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    child: Text(
-                      state,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
+                      ElevatedButton(
+                        onPressed: showSmall,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: stateSmall == 'yes :)'  || stateSmall == 'آره :)'
+                              ? Colors.green.shade600
+                              : (stateSmall == 'no  :(' || stateSmall == 'نه :('
+                                  ? brightPink
+                                  : deepPurple),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 8,
+                          shadowColor: darkPurple.withOpacity(0.5),
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                        ),
+                        child: Text(
+                          stateSmall,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    ]
+                  )
                 ),
               ],
             ),
