@@ -2,6 +2,7 @@
     "cSpell.words": [
         "Cupertino",
         "iface",
+        "nکار",
         "Schyler",
         "themind",
         "آدرس",
@@ -18,6 +19,8 @@
         "اینترنت",
         "بازی",
         "باشد",
+        "باشه",
+        "بدیه",
         "برای",
         "بررسی",
         "برندس",
@@ -63,7 +66,8 @@
         "هنوز",
         "وارد",
         "وجود",
-        "وضعیت"
+        "وضعیت",
+        "یادت"
     ],
     "dart.flutterSdkPath": "~/Documents/coding/python/school/flutterSDK/flutter_linux_3.24.4-stable/flutter",
     "cmake.sourceDirectory": "/home/taha/Documents/coding/python/me/flutter The Mind/linux"
