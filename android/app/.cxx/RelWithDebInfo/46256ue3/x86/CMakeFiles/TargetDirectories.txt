@@ -1,0 +1,2 @@
+/home/taha/Documents/coding/python/me/flutter The Mind/android/app/.cxx/RelWithDebInfo/46256ue3/x86/CMakeFiles/edit_cache.dir
+/home/taha/Documents/coding/python/me/flutter The Mind/android/app/.cxx/RelWithDebInfo/46256ue3/x86/CMakeFiles/rebuild_cache.dir
