@@ -466,7 +466,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                               ? Colors.green.shade600
                               : (stateBig == 'no  :(' || stateBig == 'نه :('
                                   ? brightPink
-                                  : deepPurple),
+                                  : const Color.fromARGB(255, 38, 34, 121)),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -505,7 +505,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                         child: Text(
                           stateSmall,
                           style: const TextStyle(
-                            fontSize: 22,
+                            fontSize: 19,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
                           ),
