@@ -41,5 +41,6 @@
         "وجود",
         "وضعیت"
     ],
-    "dart.flutterSdkPath": "~/Documents/coding/python/school/flutterSDK/flutter_linux_3.24.4-stable/flutter"
+    "dart.flutterSdkPath": "~/Documents/coding/python/school/flutterSDK/flutter_linux_3.24.4-stable/flutter",
+    "cmake.sourceDirectory": "/home/taha/Documents/coding/python/me/flutter The Mind/linux"
 }
