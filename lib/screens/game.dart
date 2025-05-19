@@ -18,34 +18,34 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int number = -1;
   int score = 0;
-  String stateBig = isEn ? 'im big' : 'من بزرگه ام';
-  String stateSmall = isEn ? 'im small' : 'من کوچیکه ام';
+  String stateBig = isEn ? "I'm big" : 'من بزرگه ام';
+  String stateSmall = isEn ? "I'm small" : 'من کوچیکه ام';
+  double bigBorder = 2;
+  double smallBorder = 2;
   Socket? clientSocket;
   ServerSocket? server;
   bool isConnected = false;
   String connectionStatus = isEn ? 'Connecting...' : 'در حال اتصال...';
-  
+
   // Animation controller for number reveal
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late AnimationController _rotationController;
   late Animation<double> _rotationAnimation;
 
-
-
   @override
   void initState() {
     super.initState();
-    
+
     // Setup animations
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    
+
     _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.elasticOut)
-    );
+        CurvedAnimation(
+            parent: _animationController, curve: Curves.elasticOut));
 
     _rotationController = AnimationController(
       vsync: this,
@@ -56,41 +56,47 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       CurvedAnimation(parent: _rotationController, curve: Curves.easeOut),
     );
 
-    
     _setupServer();
   }
 
   void _setupServer() async {
     try {
       setState(() {
-        connectionStatus = isEn ? 'Connecting to ${widget.host}:${widget.port}...' : 'به ${widget.host}:${widget.port} متصل شد...';
+        connectionStatus = isEn
+            ? 'Connecting to ${widget.host}:${widget.port}...'
+            : 'به ${widget.host}:${widget.port} متصل شد...';
         isConnected = false;
       });
-      
+
       clientSocket = await Socket.connect(widget.host, widget.port);
       debugPrint('Connected to server at ${widget.host}:${widget.port}');
-      
+
       setState(() {
         connectionStatus = isEn ? 'Connected' : 'متصل شده';
         isConnected = true;
       });
-      
+
       clientSocket!.write('give me');
-      
+
       clientSocket!.listen((data) {
         String reply = String.fromCharCodes(data);
         debugPrint('Received reply: $reply');
         setState(() {
           number = int.tryParse(reply) ?? -1;
-          _animationController..reset()..forward();
-          _rotationController..reset()..forward();
+          _animationController
+            ..reset()
+            ..forward();
+          _rotationController
+            ..reset()
+            ..forward();
         });
       });
-    } 
-    catch (e) {
+    } catch (e) {
       debugPrint('Error connecting to server: $e');
       setState(() {
-        connectionStatus = isEn ? 'Connection failed: ${e.toString()}' : 'خطا در اتصال: ${e.toString()}';
+        connectionStatus = isEn
+            ? 'Connection failed: ${e.toString()}'
+            : 'خطا در اتصال: ${e.toString()}';
         isConnected = false;
       });
     }
@@ -101,42 +107,48 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       try {
         setState(() {
           stateBig = isEn ? 'Checking...' : 'چک ...';
+          bigBorder = 10;
         });
-        
+
         clientSocket = await Socket.connect(widget.host, widget.port);
         debugPrint('Connected to server at ${widget.host}:${widget.port}');
-        
+
         clientSocket!.write('Biggest');
-        
+
         clientSocket!.listen((data) {
           String reply = String.fromCharCodes(data);
           debugPrint('Received reply: $reply');
-          
+
           // First UI update
           setState(() {
-            stateBig = isEn ? reply : reply == 'yes :)' ? 'آره :)' : 'نه :(';
+            stateBig = isEn
+                ? reply
+                : reply == 'yes :)'
+                    ? 'آره :)'
+                    : 'نه :(';
           });
-          
+
           // Wait and then reset
           Future.delayed(const Duration(seconds: 1), () {
             setState(() {
-              stateBig = isEn ? 'im big' : 'من بزرگه ام';
+              stateBig = isEn ? "I'm big" : 'من بزرگه ام';
+              bigBorder = 2;
             });
             _setupServer();
             _updateScore();
           });
         });
-      } 
-      catch (e) {
+      } catch (e) {
         debugPrint('Error connecting to server: $e');
         setState(() {
           stateBig = isEn ? 'Error' : 'خطا';
-          connectionStatus = isEn ? 'Connection error: ${e.toString()}' : 'خطا در اتصال: ${e.toString()}';
+          connectionStatus = isEn
+              ? 'Connection error: ${e.toString()}'
+              : 'خطا در اتصال: ${e.toString()}';
           isConnected = false;
         });
       }
-    }
-    else {
+    } else {
       debugPrint('No client connected to send "show" command');
       setState(() {
         connectionStatus = isEn ? 'Not connected' : 'متصل نیست';
@@ -151,42 +163,48 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       try {
         setState(() {
           stateSmall = isEn ? 'Checking...' : 'چک ...';
+          smallBorder = 10;
         });
-        
+
         clientSocket = await Socket.connect(widget.host, widget.port);
         debugPrint('Connected to server at ${widget.host}:${widget.port}');
-        
+
         clientSocket!.write('Smallest');
-        
+
         clientSocket!.listen((data) {
           String reply = String.fromCharCodes(data);
           debugPrint('Received reply: $reply');
-          
+
           // First UI update
           setState(() {
-            stateSmall = isEn ? reply : reply == 'yes :)' ? 'آره :)' : 'نه :(';
+            stateSmall = isEn
+                ? reply
+                : reply == 'yes :)'
+                    ? 'آره :)'
+                    : 'نه :(';
           });
-          
+
           // Wait and then reset
           Future.delayed(const Duration(seconds: 1), () {
             setState(() {
-              stateSmall = isEn ? 'im small' : 'من کوچیکه ام';
+              stateSmall = isEn ? "I'm small" : 'من کوچیکه ام';
+              smallBorder = 2;
             });
             _setupServer();
             _updateScore();
           });
         });
-      } 
-      catch (e) {
+      } catch (e) {
         debugPrint('Error connecting to server: $e');
         setState(() {
           stateSmall = isEn ? 'Error' : 'خطا';
-          connectionStatus = isEn ? 'Connection error: ${e.toString()}' : 'خطا در اتصال: ${e.toString()}';
+          connectionStatus = isEn
+              ? 'Connection error: ${e.toString()}'
+              : 'خطا در اتصال: ${e.toString()}';
           isConnected = false;
         });
       }
-    }
-    else {
+    } else {
       debugPrint('No client connected to send "show" command');
       setState(() {
         connectionStatus = isEn ? 'Not connected' : 'متصل نیست';
@@ -200,9 +218,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     try {
       clientSocket = await Socket.connect(widget.host, widget.port);
       debugPrint('Connected to server at ${widget.host}:${widget.port}');
-      
+
       clientSocket!.write('score');
-      
+
       clientSocket!.listen((data) {
         String reply = String.fromCharCodes(data);
         debugPrint('Received reply: $reply');
@@ -210,8 +228,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           score = int.tryParse(reply) ?? 0;
         });
       });
-    } 
-    catch (e) {
+    } catch (e) {
       debugPrint('Error connecting to server: $e');
     }
   }
@@ -266,16 +283,16 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   ),
                   actions: [
                     IconButton(
-                      icon: const Icon(Icons.settings),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                        ).then((_) {
+                        icon: const Icon(Icons.settings),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SettingsScreen()),
+                          ).then((_) {
                             setState(() {});
                           });
-                      }
-                    ),
+                        }),
                   ],
                   centerTitle: true,
                   elevation: 2,
@@ -297,7 +314,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     child: Column(
                       children: [
                         Row(
-                          textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
+                          textDirection:
+                              isEn ? TextDirection.ltr : TextDirection.rtl,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(
@@ -308,7 +326,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                             const SizedBox(width: 10),
                             Text(
                               isEn ? 'Your Score' : 'امتیاز شما',
-                              style: const  TextStyle(
+                              style: const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: darkPurple,
@@ -319,9 +337,12 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                         ),
                         const SizedBox(height: 16),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 16),
                           decoration: BoxDecoration(
-                            color: score >= 0 ? violet.withOpacity(0.8) : brightPink.withOpacity(0.8),
+                            color: score >= 0
+                                ? violet.withOpacity(0.8)
+                                : brightPink.withOpacity(0.8),
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
@@ -344,9 +365,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 30),
-                
+
                 // Number Display
                 Card(
                   elevation: 8,
@@ -361,7 +382,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     child: Column(
                       children: [
                         Row(
-                          textDirection: isEn  ? TextDirection.ltr : TextDirection.rtl,
+                          textDirection:
+                              isEn ? TextDirection.ltr : TextDirection.rtl,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(
@@ -403,7 +425,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                                     offset: const Offset(0, 6),
                                   ),
                                 ],
-                                border: Border.all(color: Colors.white.withOpacity(0.8), width: 3),
+                                border: Border.all(
+                                    color: Colors.white.withOpacity(0.8),
+                                    width: 3),
                               ),
                               child: Center(
                                 child: Text(
@@ -427,9 +451,12 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                         ),
                         const SizedBox(height: 20),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
-                            color: isConnected ? lightBlue.withOpacity(0.2) : brightPink.withOpacity(0.2),
+                            color: isConnected
+                                ? lightBlue.withOpacity(0.2)
+                                : brightPink.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                               color: isConnected ? indigoBlue : brightPink,
@@ -448,33 +475,37 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 40),
-                
+
                 // Action Button
                 SizedBox(
-                  width: 220,
-                  // height: 65,
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
+                    width: 220,
+                    // height: 65,
+                    child: Column(children: [
                       ElevatedButton(
                         onPressed: showBig,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: stateBig == 'yes :)'  || stateBig == 'آره :)'
-                              ? Colors.green.shade600
-                              : (stateBig == 'no  :(' || stateBig == 'نه :('
-                                  ? brightPink
-                                  : const Color.fromARGB(255, 38, 34, 121)),
+                          backgroundColor:
+                              stateBig == 'yes :)' || stateBig == 'آره :)'
+                                  ? Colors.green.shade600
+                                  : (stateBig == 'no  :(' || stateBig == 'نه :('
+                                      ? brightPink
+                                      : Color.fromARGB(255, 126, 87, 194)),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
-                            
                           ),
+                          side: BorderSide(
+                              color: stateBig == 'yes :)' || stateBig == 'آره :)' ?
+                                Colors.green.shade900 : 
+                                (stateBig == 'no  :(' || stateBig == 'نه :(' ? 
+                                Color.fromARGB(255, 146, 21, 77) : Color.fromARGB(255, 94, 53, 177)),
+                              width: bigBorder),
                           elevation: 8,
                           shadowColor: darkPurple.withOpacity(0.5),
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 20),
                         ),
                         child: Text(
                           stateBig,
@@ -485,22 +516,31 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       ElevatedButton(
                         onPressed: showSmall,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: stateSmall == 'yes :)'  || stateSmall == 'آره :)'
+                          backgroundColor: stateSmall == 'yes :)' || stateSmall == 'آره :)'
                               ? Colors.green.shade600
                               : (stateSmall == 'no  :(' || stateSmall == 'نه :('
                                   ? brightPink
-                                  : deepPurple),
+                                  : Color.fromARGB(255, 79, 195, 247)),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
+                          side: BorderSide(
+                              color: stateSmall == 'yes :)' || stateSmall == 'آره :)' ?
+                                Colors.green.shade900 : 
+                                (stateSmall == 'no  :(' || stateSmall == 'نه :(' ? 
+                                Color.fromARGB(255, 146, 21, 77) : Color.fromARGB(255, 30, 136, 229)),
+                              width: smallBorder),
                           elevation: 8,
                           shadowColor: darkPurple.withOpacity(0.5),
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 20),
                         ),
                         child: Text(
                           stateSmall,
@@ -511,9 +551,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                    ]
-                  )
-                ),
+                    ])),
               ],
             ),
           ),
