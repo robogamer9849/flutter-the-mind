@@ -109,7 +109,7 @@ class _HostMenuScreenState extends State<HostMenuScreen> {
             clients.remove(client.remoteAddress.address);
           }
 
-          else if (message.startsWith('Smallest')) {
+          else if (message.startsWith('Smallest') || message.startsWith('show')) {
             if (clients[client.remoteAddress.address] == clients.values.reduce(min)) {
               debugPrint('min number = ${clients.values.reduce(min)}');
               client.write('yes :)');
