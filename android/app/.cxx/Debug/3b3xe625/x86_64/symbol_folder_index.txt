@@ -1,0 +1,1 @@
+/home/taha/Documents/coding/python/me/flutter The Mind/build/app/intermediates/cxx/Debug/3b3xe625/obj/x86_64
