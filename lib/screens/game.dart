@@ -454,10 +454,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 // Action Button
                 SizedBox(
                   width: 220,
-                  height: 65,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  // height: 65,
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ElevatedButton(
                         onPressed: showBig,
@@ -485,6 +485,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10,),
                       ElevatedButton(
                         onPressed: showSmall,
                         style: ElevatedButton.styleFrom(
